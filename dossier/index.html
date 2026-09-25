@@ -1,0 +1,769 @@
+<title>SIGEP 360 · Dossier</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    color-scheme: light;
+    --bg:#F3F5F4; --surface:#FCFCFB; --surface-2:#E6EAE8; --surface-3:#DCE2DF;
+    --ink:#0B0B0B; --ink-2:#52514E; --ink-muted:#898781;
+    --border:rgba(11,11,11,0.10); --border-strong:rgba(11,11,11,0.18);
+    --accent:#2a78d6; --accent-strong:#184F95; --accent-wash:#E4EDF9;
+    --safety:#c98500; --safety-wash:#FBF0DC;
+    --good:#0ca30c; --warning:#fab219; --serious:#ec835a; --critical:#d03b3b;
+    --grid: rgba(11,11,11,0.06);
+    --shadow: 0 1px 2px rgba(11,11,11,.06), 0 8px 24px rgba(11,11,11,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --bg:#0d0d0d; --surface:#1a1a19; --surface-2:#242422; --surface-3:#2c2c2a;
+      --ink:#ffffff; --ink-2:#c3c2b7; --ink-muted:#8f8d86;
+      --border:rgba(255,255,255,0.12); --border-strong:rgba(255,255,255,0.20);
+      --accent:#3987e5; --accent-strong:#86b6ef; --accent-wash:#16283b;
+      --safety:#e0a531; --safety-wash:#2b2210;
+      --grid: rgba(255,255,255,0.07);
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --bg:#0d0d0d; --surface:#1a1a19; --surface-2:#242422; --surface-3:#2c2c2a;
+    --ink:#ffffff; --ink-2:#c3c2b7; --ink-muted:#8f8d86;
+    --border:rgba(255,255,255,0.12); --border-strong:rgba(255,255,255,0.20);
+    --accent:#3987e5; --accent-strong:#86b6ef; --accent-wash:#16283b;
+    --safety:#e0a531; --safety-wash:#2b2210;
+    --grid: rgba(255,255,255,0.07);
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"IBM Plex Sans", system-ui, sans-serif; line-height:1.5;
+    padding-left:max(16px, env(safe-area-inset-left,0px));
+    padding-right:max(16px, env(safe-area-inset-right,0px));
+  }
+  h1,h2,h3,h4{ font-family:"Big Shoulders Display", system-ui, sans-serif; text-wrap:balance; margin:0; }
+  .mono{ font-family:"IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  a{ color:var(--accent-strong); }
+  img{ max-width:100%; display:block; }
+  .muted{ color:var(--ink-muted); }
+
+  .shell{ max-width:1240px; margin:0 auto; display:grid; grid-template-columns:230px 1fr; gap:0; align-items:start; }
+  @media (max-width:980px){ .shell{ grid-template-columns:1fr; } }
+
+  /* ---- TOC ---- */
+  nav.toc{
+    position:sticky; top:16px; align-self:start; padding:28px 18px 28px 0;
+    max-height:calc(100vh - 32px); overflow-y:auto;
+  }
+  @media (max-width:980px){ nav.toc{ position:static; max-height:none; padding:18px 0; } }
+  nav.toc .toc-title{ font-size:.68rem; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-muted); font-weight:600; margin-bottom:10px; }
+  nav.toc ol{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:2px; counter-reset:toc; }
+  nav.toc li{ counter-increment:toc; }
+  nav.toc a{
+    display:flex; gap:8px; padding:6px 8px; border-radius:4px; text-decoration:none;
+    color:var(--ink-2); font-size:.82rem; line-height:1.3;
+  }
+  nav.toc a:hover{ background:var(--surface-2); }
+  nav.toc a::before{ content:counter(toc,decimal-leading-zero); font-family:"IBM Plex Mono"; color:var(--accent-strong); font-size:.72rem; flex:0 0 auto; padding-top:1px; }
+
+  main.doc{ padding:36px 0 80px; border-left:1px solid var(--border); padding-left:40px; }
+  @media (max-width:980px){ main.doc{ border-left:none; padding-left:0; } }
+
+  /* ---- Cover ---- */
+  .cover{ padding-bottom:36px; border-bottom:1px solid var(--border); margin-bottom:8px; }
+  .cover .eyebrow{ text-transform:uppercase; letter-spacing:.16em; font-size:.72rem; font-weight:600; color:var(--accent-strong); }
+  .cover h1{ font-size:clamp(2.6rem,6vw,4.6rem); font-weight:800; line-height:.95; margin-top:10px; }
+  .cover .lead{ font-size:1.08rem; color:var(--ink-2); max-width:66ch; margin-top:14px; }
+  .cover-meta{ display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:22px; }
+  .cover-meta div{ display:flex; flex-direction:column; gap:2px; }
+  .cover-meta .k{ font-size:.66rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-muted); }
+  .cover-meta .v{ font-size:.86rem; font-weight:600; }
+  .quote-rect{
+    margin-top:26px; padding:20px 24px; border-left:3px solid var(--accent); background:var(--accent-wash);
+    border-radius:0 6px 6px 0; font-family:"Big Shoulders Display"; font-weight:600; font-size:1.3rem; line-height:1.25;
+  }
+  .vision-box{
+    margin-top:22px; padding:18px 22px; background:var(--accent-wash); border-radius:6px;
+  }
+  .vision-box .vt{ text-transform:uppercase; letter-spacing:.1em; font-size:.7rem; font-weight:700; color:var(--accent-strong); margin-bottom:8px; }
+  .vision-box p{ margin:0; color:var(--ink-2); font-size:.95rem; line-height:1.55; }
+  .proposito{ margin-top:14px; padding:14px 18px; border:1px dashed var(--border-strong); border-radius:6px; font-size:.86rem; color:var(--ink-2); line-height:1.5; }
+  .proposito b{ color:var(--ink); }
+
+  /* ---- Chapters ---- */
+  .chapter{ padding-block:40px; border-bottom:1px solid var(--border); scroll-margin-top:16px; }
+  .chapter:last-of-type{ border-bottom:none; }
+  .chapter-head{ display:flex; gap:16px; align-items:baseline; margin-bottom:8px; }
+  .chapter-num{ font-family:"Big Shoulders Display"; font-weight:800; font-size:2.2rem; color:var(--surface-3); -webkit-text-stroke:1.5px var(--border-strong); }
+  .chapter-head h2{ font-size:clamp(1.5rem,3vw,2.1rem); font-weight:700; }
+  .chapter-dek{ color:var(--ink-2); max-width:70ch; margin:6px 0 28px; line-height:1.6; }
+  .prose{ max-width:70ch; color:var(--ink-2); }
+  .prose p{ margin:0 0 12px; }
+  .prose strong{ color:var(--ink); }
+
+  h3.sub{ font-size:1.05rem; font-weight:700; margin:28px 0 12px; }
+  h3.sub:first-child{ margin-top:0; }
+
+  .new-tag{
+    display:inline-flex; align-items:center; gap:4px; font-size:.62rem; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--safety); background:var(--safety-wash); border:1px solid var(--safety);
+    border-radius:99px; padding:1px 8px; margin-left:8px; vertical-align:middle;
+  }
+
+  /* Pillars */
+  .pillars{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  @media (max-width:900px){ .pillars{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .pillars{ grid-template-columns:1fr; } }
+  .pillar{ border:1px solid var(--border); border-radius:6px; background:var(--surface); padding:16px; display:flex; flex-direction:column; gap:6px; box-shadow:var(--shadow); }
+  .pillar .pn{ font-family:"IBM Plex Mono"; font-size:.7rem; color:var(--accent-strong); font-weight:600; }
+  .pillar h4{ font-size:1rem; font-weight:700; }
+  .pillar p{ font-size:.82rem; color:var(--ink-2); line-height:1.45; margin:0; }
+
+  /* Verbs (objetivos estratégicos) */
+  .verb-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+  @media (max-width:820px){ .verb-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:480px){ .verb-grid{ grid-template-columns:1fr; } }
+  .verb{ background:var(--surface); padding:14px 16px; display:flex; flex-direction:column; gap:4px; }
+  .verb .vv{ font-family:"Big Shoulders Display"; font-weight:800; font-size:.98rem; color:var(--accent-strong); letter-spacing:.02em; }
+  .verb .vd{ font-size:.78rem; color:var(--ink-2); line-height:1.4; }
+
+  /* Niveles (arquitectura) */
+  .nivel-list{ display:flex; flex-direction:column; border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+  .nivel-item{ display:grid; grid-template-columns:70px 1fr; gap:14px; padding:13px 16px; background:var(--surface); border-top:1px solid var(--border); }
+  .nivel-item:first-child{ border-top:none; }
+  .nivel-item .nn{ font-family:"IBM Plex Mono"; font-size:.7rem; color:var(--accent-strong); font-weight:600; padding-top:2px; }
+  .nivel-item .nt{ font-weight:700; font-size:.92rem; }
+  .nivel-item .nd{ font-size:.82rem; color:var(--ink-2); margin-top:2px; }
+
+  /* Flow */
+  .flow{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+  .flow-step{
+    font-size:.78rem; font-weight:600; padding:7px 12px; border-radius:5px; background:var(--surface-2);
+    border:1px solid var(--border); white-space:nowrap;
+  }
+  .flow-arrow{ color:var(--ink-muted); font-size:.9rem; }
+
+  /* Field list */
+  .field-list{ display:flex; flex-wrap:wrap; gap:6px; }
+  .field-chip{ font-size:.74rem; padding:4px 10px; border-radius:99px; background:var(--surface-2); border:1px solid var(--border); color:var(--ink-2); }
+
+  /* Two col */
+  .two-col{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:700px){ .two-col{ grid-template-columns:1fr; } }
+
+  /* ISE bands */
+  .band-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+  .band{ flex:1; min-width:130px; border-radius:6px; padding:10px 12px; color:#fff; }
+  .band .bt{ font-weight:700; font-size:.82rem; }
+  .band .br{ font-size:.72rem; opacity:.9; }
+
+  /* Improvement card (a-k) */
+  .imp-grid{ display:flex; flex-direction:column; gap:10px; }
+  .imp{
+    display:grid; grid-template-columns:34px 1fr; gap:12px; padding:14px 16px; border:1px solid var(--border);
+    border-radius:6px; background:var(--surface);
+  }
+  .imp .il{ font-family:"Big Shoulders Display"; font-weight:800; font-size:1.3rem; color:var(--safety); }
+  .imp h4{ font-size:.92rem; font-weight:700; margin-bottom:3px; }
+  .imp p{ font-size:.82rem; color:var(--ink-2); margin:0; line-height:1.5; }
+
+  /* Roadmap / stepped list (reused for hoja de ruta and el ejemplo integrado) */
+  .roadmap{ display:flex; flex-direction:column; border-left:2px solid var(--border-strong); margin-left:6px; }
+  .rm-item{ position:relative; padding:0 0 26px 24px; }
+  .rm-item:last-child{ padding-bottom:0; }
+  .rm-item::before{
+    content:''; position:absolute; left:-7px; top:2px; width:12px; height:12px; border-radius:50%;
+    background:var(--accent); border:2px solid var(--surface);
+  }
+  .rm-year{ font-family:"IBM Plex Mono"; font-weight:600; color:var(--accent-strong); font-size:.82rem; }
+  .rm-title{ font-weight:700; margin:2px 0 4px; }
+  .rm-text{ font-size:.84rem; color:var(--ink-2); }
+
+  /* Stat strip reused */
+  .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:4px; overflow:hidden; margin:18px 0; }
+  .stat{ background:var(--surface); padding:14px 16px; display:flex; flex-direction:column; gap:3px; }
+  .stat .n{ font-family:"Big Shoulders Display"; font-weight:700; font-size:1.7rem; }
+  .stat .l{ font-size:.72rem; color:var(--ink-muted); line-height:1.3; }
+  @media (max-width:640px){ .stat-row{ grid-template-columns:repeat(2,1fr); } }
+
+  .callout{
+    border:1px solid var(--border-strong); border-radius:8px; padding:20px; background:var(--surface);
+    box-shadow:var(--shadow); margin-top:18px;
+  }
+  .callout h4{ font-size:1.05rem; margin-bottom:6px; }
+  .callout p{ font-size:.86rem; color:var(--ink-2); line-height:1.55; margin:0; }
+  .callout.case{ border-left:3px solid var(--safety); }
+  .callout.case h4{ color:var(--ink); }
+
+  table.mini{ width:100%; border-collapse:collapse; margin-top:14px; }
+  table.mini th{ text-align:left; font-size:.68rem; text-transform:uppercase; color:var(--ink-muted); border-bottom:1px solid var(--border-strong); padding:8px 10px; }
+  table.mini td{ padding:8px 10px; border-bottom:1px solid var(--border); font-size:.84rem; }
+  table.mini td.n{ font-family:"IBM Plex Mono"; text-align:right; }
+  .table-wrap{ overflow-x:auto; }
+  .table-wrap table.mini{ min-width:520px; }
+
+  .checklist{ list-style:none; margin:14px 0 0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .checklist li{ display:flex; gap:10px; font-size:.9rem; color:var(--ink-2); align-items:flex-start; }
+  .checklist li::before{ content:'✓'; color:var(--good); font-weight:700; flex:0 0 auto; }
+
+  .qr-card{
+    display:flex; align-items:center; gap:20px; margin-top:18px; flex-wrap:wrap;
+    padding:18px 20px; border:1px solid var(--border-strong); border-radius:8px; background:var(--surface);
+    box-shadow:var(--shadow);
+  }
+  .qr-card #qrcode{ display:block; flex:0 0 auto; line-height:0; padding:8px; background:#fff; border-radius:6px; border:1px solid var(--border); }
+  .qr-card #qrcode img{ display:block; }
+  .qr-card .qr-text{ flex:1; min-width:200px; }
+  .qr-card .qr-text .t{ font-weight:700; font-size:.98rem; margin-bottom:4px; }
+  .qr-card .qr-text .s{ font-size:.82rem; color:var(--ink-2); line-height:1.5; }
+
+  .link-card{
+    display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:18px;
+    padding:18px 22px; border-radius:8px; background:var(--accent); color:#fff; flex-wrap:wrap;
+  }
+  .link-card .t{ font-weight:700; font-size:1rem; }
+  .link-card .s{ font-size:.82rem; opacity:.9; }
+  .link-card a{ background:#fff; color:var(--accent-strong); padding:9px 16px; border-radius:5px; font-weight:700; font-size:.84rem; text-decoration:none; white-space:nowrap; }
+
+  .map-frame{ border:1px solid var(--border-strong); border-radius:8px; overflow:hidden; box-shadow:var(--shadow); background:#fff; }
+  .map-caption{ font-size:.78rem; color:var(--ink-muted); margin-top:10px; }
+
+  footer.doc-footer{ padding:40px 0; text-align:center; }
+  footer.doc-footer p{ color:var(--ink-muted); font-size:.78rem; }
+
+  @media print{
+    nav.toc{ display:none; }
+    .shell{ grid-template-columns:1fr; }
+    main.doc{ border-left:none; padding-left:0; }
+    .chapter{ break-inside:avoid-page; }
+    body{ background:#fff; }
+  }
+</style>
+
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-title">SIGEP 360 — Índice</div>
+    <ol>
+      <li><a href="#diagnostico">Diagnóstico actual</a></li>
+      <li><a href="#concepto">Concepto central</a></li>
+      <li><a href="#arquitectura-pilares">Arquitectura y pilares</a></li>
+      <li><a href="#flujo">Flujo operativo</a></li>
+      <li><a href="#prevencion">Prevención, mapa y sustentabilidad</a></li>
+      <li><a href="#gobernanza">Personas, gobernanza y riesgos</a></li>
+      <li><a href="#indicadores">Indicadores e IA</a></li>
+      <li><a href="#arquitectura">Plataforma y hoja de ruta</a></li>
+      <li><a href="#emeai">Caso piloto: EMEAI</a></li>
+      <li><a href="#anexos">Anexos operativos</a></li>
+      <li><a href="#objetivo">Objetivo final</a></li>
+    </ol>
+  </nav>
+
+  <main class="doc">
+    <section class="cover">
+      <span class="eyebrow">Concurso de Jefatura de Obras Públicas · Municipalidad de Ayacucho</span>
+      <h1>SIGEP 360</h1>
+      <p class="lead">SIGEP 360 (Sistema Inteligente de Gestión para los Edificios Públicos). Plan estratégico de transformación de la Jefatura de Obras Públicas, período 2027–2037.</p>
+      <div class="vision-box">
+        <div class="vt">Visión 2037</div>
+        <p>Transformar la Jefatura de Obras Públicas en una unidad técnica estratégica, preventiva, digital, sustentable y centrada en las personas, capaz de gestionar el patrimonio municipal con información, planificación y continuidad institucional.</p>
+      </div>
+      <div class="cover-meta">
+        <div><span class="k">Partido</span><span class="v">Ayacucho, Buenos Aires</span></div>
+        <div><span class="k">Dependencias relevadas</span><span class="v">≈ 71 edificios municipales</span></div>
+        <div><span class="k">Dotación operativa</span><span class="v">15 trabajadores en 4 cuadrillas</span></div>
+        <div><span class="k">Horizonte</span><span class="v">Inicio 2027 → consolidación 2037</span></div>
+      </div>
+      <div class="quote-rect">"De reparar edificios a gestionar patrimonio."</div>
+    </section>
+
+    <section class="chapter" id="diagnostico">
+      <div class="chapter-head"><span class="chapter-num">01</span><h2>Diagnóstico actual</h2></div>
+      <p class="chapter-dek">El punto de partida real de Obras Públicas, sin maquillaje — es sobre esta base que se construye SIGEP 360, no sobre un escenario ideal.</p>
+      <div class="two-col">
+        <div class="prose">
+          <p>Obras Públicas gestiona el mantenimiento, reparación, mejora y planificación de los edificios y dependencias del Partido de Ayacucho: <strong>≈71 dependencias municipales</strong>, un número que debe tratarse como dinámico, no como un padrón cerrado. La Planta Urbana aportada al proyecto se adopta como base cartográfica real para la localización territorial (ver capítulo 5).</p>
+          <p>La dotación operativa es de <strong>15 trabajadores</strong>: un capataz, cuatro cuadrillas —dos de albañilería (2 + 3 agentes), una de electricidad (4) y una de plomería (3)— y dos agentes administrativos, en horario de 07:00 a 13:00, con vehículos, herramientas y maquinaria propios, dependientes de la Secretaría de Obras y Servicios Públicos. La oportunidad de mejora no es necesariamente equipar más, sino programar y medir mejor el uso de los recursos existentes.</p>
+        </div>
+        <div class="prose">
+          <p>Los pedidos de reparación hoy entran por WhatsApp, teléfono, notas, expedientes o en persona. <strong>La multiplicidad de canales no es solo el problema</strong>: también lo es que no existe una puerta operativa única que consolide el pedido, su prioridad, responsable, materiales, tiempos y cierre. Sin eso, se dificulta construir estadísticas, comparar tiempos de respuesta, reconocer reincidencias y convertir el trabajo realizado en conocimiento institucional.</p>
+          <p>El circuito de materiales existe, pero su trazabilidad es débil porque distintos usuarios pueden retirar elementos sin un circuito suficientemente controlado — esto afecta la confiabilidad del stock y dificulta preservar materiales de valor (ver BAMUR, capítulo 4).</p>
+        </div>
+      </div>
+      <p class="prose" style="margin-top:4px">Los problemas recurrentes son los esperables en un parque edilicio de esta escala sin mantenimiento preventivo sistemático: filtraciones y fallas de cubiertas, revoques en mal estado, problemas eléctricos, problemas en instalaciones sanitarias y mantenimiento general. Estas cinco familias serán los primeros campos de estandarización de SIGEP 360.</p>
+      <p class="prose">Un punto importante a desarrollar en esta Jefatura es la consolidación de una política pública referida a la puesta en valor de Edificios Públicos Municipales que en lo cotidiano no se realiza debido al trajín diario no planificado.</p>
+
+      <div class="callout case">
+        <h4>Un caso real: la Biblioteca</h4>
+        <p>Una intervención arbitraria y no evaluada por el personal competente, vinculada a una ampliación, derivó posteriormente en una solución provisoria e incómoda — se resolvió una necesidad puntual sin pasar por una evaluación técnica integral. No es un caso para personalizar responsabilidades: es el ejemplo exacto de por qué las decisiones edilicias relevantes necesitan evaluación técnica documentada antes de ejecutarse, y no una corrección después. Los responsables políticos, directores y usuarios cambian; el edificio permanece.</p>
+      </div>
+
+      <h3 class="sub">Diagnóstico síntesis</h3>
+      <div class="table-wrap">
+        <table class="mini">
+          <tr><th>Situación actual</th><th>Transformación SIGEP 360</th></tr>
+          <tr><td>Pedidos por múltiples vías</td><td>Registro único mediante Orden de Trabajo</td></tr>
+          <tr><td>Información distribuida</td><td>Historia Clínica Edilicia</td></tr>
+          <tr><td>Predominio reactivo</td><td>Mantenimiento preventivo y predictivo</td></tr>
+          <tr><td>Prioridad circunstancial</td><td>Matriz técnica de prioridad</td></tr>
+          <tr><td>Stock poco trazable</td><td>BAMUR e inventario de materiales</td></tr>
+          <tr><td>Consumos sin lectura integral</td><td>Pasaporte energético y ambiental</td></tr>
+          <tr><td>Conocimiento personal</td><td>Memoria institucional</td></tr>
+          <tr><td>Obras aisladas</td><td>Plan Director 2027–2037</td></tr>
+          <tr><td>Trabajo ejecutado</td><td>Trabajo medido, evaluado y documentado</td></tr>
+        </table>
+      </div>
+      <div class="quote-rect" style="margin-top:20px; font-size:1rem">El desafío no es la falta de trabajo. Es transformar todo el trabajo que ya se realiza en información capaz de mejorar el trabajo que todavía falta realizar.</div>
+    </section>
+
+    <section class="chapter" id="concepto">
+      <div class="chapter-head"><span class="chapter-num">02</span><h2>Concepto central</h2></div>
+      <p class="chapter-dek">SIGEP 360 no es, en primer lugar, una aplicación. Es un sistema de trabajo municipal — la plataforma digital es la herramienta que lo ejecuta.</p>
+      <div class="prose">
+        <p>La transformación que propone es de modelo: de una gestión <strong>predominantemente reactiva</strong> a una gestión <strong>integral, preventiva, documentada y progresivamente predictiva</strong> del patrimonio edilicio municipal. No consiste en crear una estructura paralela ni en informatizar por informatizar: consiste en ordenar lo que ya existe y convertir cada intervención en información útil para la siguiente decisión.</p>
+      </div>
+      <div class="proposito"><b>Propósito.</b> Que SIGEP 360 sea excelente por su alcance, creíble por su gradualidad y replicable por su método: un modelo que pueda incentivar procesos de modernización en otras áreas municipales.</div>
+
+      <h3 class="sub">Objetivos estratégicos</h3>
+      <div class="verb-grid">
+        <div class="verb"><span class="vv">Conocer</span><span class="vd">Inventariar, georreferenciar y diagnosticar el patrimonio edilicio.</span></div>
+        <div class="verb"><span class="vv">Prevenir</span><span class="vd">Reducir progresivamente emergencias mediante mantenimiento programado.</span></div>
+        <div class="verb"><span class="vv">Priorizar</span><span class="vd">Asignar recursos según riesgo, criticidad, estado e impacto.</span></div>
+        <div class="verb"><span class="vv">Optimizar</span><span class="vd">Mejorar las capacidades de personal, materiales, equipos y presupuesto.</span></div>
+        <div class="verb"><span class="vv">Transformar</span><span class="vd">Mejorar desempeño energético, ambiental y funcional.</span></div>
+        <div class="verb"><span class="vv">Valorar</span><span class="vd">Capacitar, organizar y reconocer a las personas que ejecutan el trabajo.</span></div>
+        <div class="verb"><span class="vv">Preservar</span><span class="vd">Construir memoria técnica institucional y continuidad de criterios.</span></div>
+        <div class="verb"><span class="vv">Replicar</span><span class="vd">Desarrollar un método que pueda inspirar mejoras en otras áreas municipales.</span></div>
+      </div>
+
+      <div class="band-row" style="margin-top:22px">
+        <div class="band" style="background:var(--accent)"><div class="bt">De reparar edificios</div><div class="br">a gestionar patrimonio</div></div>
+        <div class="band" style="background:var(--accent-strong)"><div class="bt">De resolver urgencias</div><div class="br">a anticiparlas</div></div>
+        <div class="band" style="background:#3a5568"><div class="bt">De decisiones circunstanciales</div><div class="br">a decisiones técnicas documentadas</div></div>
+      </div>
+      <div class="quote-rect" style="margin-top:18px; font-size:1.05rem">"La información pertenece al Municipio, no a una gestión. Cada acción deja capacidad instalada para la próxima."</div>
+    </section>
+
+    <section class="chapter" id="arquitectura-pilares">
+      <div class="chapter-head"><span class="chapter-num">03</span><h2>Arquitectura y pilares</h2></div>
+      <p class="chapter-dek">Siete niveles de información por edificio, y cuatro pilares que le dan sentido operativo a esos niveles.</p>
+
+      <h3 class="sub">Arquitectura del sistema, en 7 niveles</h3>
+      <div class="nivel-list">
+        <div class="nivel-item"><span class="nn">NIVEL 1</span><div><div class="nt">Identidad</div><div class="nd">Código SIGEP, función, dirección, nomenclatura, superficie y ubicación GIS (Sistema de Información Geográfica).</div></div></div>
+        <div class="nivel-item"><span class="nn">NIVEL 2</span><div><div class="nt">Historia Clínica Edilicia</div><div class="nd">Planos, fotografías, sistema constructivo, estructura, cubierta, instalaciones y antecedentes.</div></div></div>
+        <div class="nivel-item"><span class="nn">NIVEL 3</span><div><div class="nt">Estado</div><div class="nd">Inspecciones, patologías, ISE (Índice de Salud Edilicia) y criticidad funcional.</div></div></div>
+        <div class="nivel-item"><span class="nn">NIVEL 4</span><div><div class="nt">Mantenimiento</div><div class="nd">Rutinas, alertas, órdenes de trabajo y cierre documentado.</div></div></div>
+        <div class="nivel-item"><span class="nn">NIVEL 5</span><div><div class="nt">Recursos</div><div class="nd">Cuadrillas, horas, materiales, equipos y costos.</div></div></div>
+        <div class="nivel-item"><span class="nn">NIVEL 6</span><div><div class="nt">Ambiente</div><div class="nd">Electricidad, gas, agua, residuos, vegetación y potencial de mejora.</div></div></div>
+        <div class="nivel-item"><span class="nn">NIVEL 7</span><div><div class="nt">Evolución</div><div class="nd">Historial completo de intervenciones y resultados.</div></div></div>
+      </div>
+
+      <h3 class="sub">Los cuatro pilares operativos</h3>
+      <div class="pillars">
+        <div class="pillar">
+          <span class="pn">01 · Inventario</span>
+          <h4>Identidad digital por edificio</h4>
+          <p>Código SIGEP, ubicación, catastro, superficies, planos, fotos, instalaciones, responsables, costos, consumos e historial — visualizados también en un mapa GIS. Dinámico: se dan de alta, baja o modifican edificios.</p>
+        </div>
+        <div class="pillar">
+          <span class="pn">02 · Historia Clínica</span>
+          <h4>Cada edificio, un paciente</h4>
+          <p>Patología → diagnóstico → intervención → materiales → fotos → costo → resultado → control → próxima inspección. Dentro de 10 o 20 años se sabrá exactamente qué ocurrió en cada edificio.</p>
+        </div>
+        <div class="pillar">
+          <span class="pn">03 · ISE</span>
+          <h4>ISE (Índice de Salud Edilicia)</h4>
+          <p>Calificación 0–100, complementada con un factor de criticidad funcional. Ayuda a decidir; nunca reemplaza el criterio profesional.</p>
+        </div>
+        <div class="pillar">
+          <span class="pn">04 · Priorización</span>
+          <h4>Orden objetivo, decisión humana</h4>
+          <p>Urgencia, riesgo, ISE, criticidad funcional, antigüedad del reclamo, recursos y posibilidad de agrupar tareas. Las emergencias superan el orden normal automáticamente.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Ponderación del ISE</h3>
+      <table class="mini">
+        <tr><th>Componente</th><th>Peso</th></tr>
+        <tr><td>Estructura</td><td class="n">20%</td></tr>
+        <tr><td>Cubiertas e impermeabilización</td><td class="n">15%</td></tr>
+        <tr><td>Instalación eléctrica</td><td class="n">15%</td></tr>
+        <tr><td>Instalaciones sanitarias</td><td class="n">10%</td></tr>
+        <tr><td>Gas y climatización</td><td class="n">10%</td></tr>
+        <tr><td>Fachadas y revoques</td><td class="n">10%</td></tr>
+        <tr><td>Accesibilidad y seguridad</td><td class="n">10%</td></tr>
+        <tr><td>Carpinterías y terminaciones</td><td class="n">5%</td></tr>
+        <tr><td>Mantenimiento general</td><td class="n">5%</td></tr>
+      </table>
+      <div class="band-row">
+        <div class="band" style="background:var(--good)"><div class="bt">80–100</div><div class="br">Bueno</div></div>
+        <div class="band" style="background:var(--warning); color:#231a00"><div class="bt">60–79</div><div class="br">Atención</div></div>
+        <div class="band" style="background:var(--serious)"><div class="bt">40–59</div><div class="br">Prioritario</div></div>
+        <div class="band" style="background:var(--critical)"><div class="bt">0–39</div><div class="br">Crítico</div></div>
+      </div>
+      <p class="prose" style="margin-top:14px">La prioridad final combina el ISE con la Criticidad Funcional, el riesgo para las personas, la continuidad del servicio, el costo de no intervenir y la oportunidad de ejecución: dos patologías iguales pueden recibir prioridades distintas según el uso del edificio. Ver un cálculo de ejemplo aplicado a EMEAI, con datos reales, en el capítulo 9.</p>
+
+      <h3 class="sub">Sistema de priorización, factor por factor</h3>
+      <div class="table-wrap">
+        <table class="mini">
+          <tr><th>Factor</th><th>Pregunta de gestión</th></tr>
+          <tr><td>Urgencia</td><td>¿Cuánto puede esperar la intervención?</td></tr>
+          <tr><td>Riesgo y seguridad</td><td>¿Existe peligro para personas, bienes o instalaciones?</td></tr>
+          <tr><td>Afectación del servicio</td><td>¿Impide o limita el funcionamiento del edificio?</td></tr>
+          <tr><td>Usuarios afectados</td><td>¿A cuántas personas impacta?</td></tr>
+          <tr><td>Estado / ISE</td><td>¿El problema se inserta en un edificio ya deteriorado o crítico?</td></tr>
+          <tr><td>Antigüedad del reclamo</td><td>¿Cuánto tiempo lleva pendiente?</td></tr>
+          <tr><td>Costo y disponibilidad</td><td>¿Puede resolverse con recursos disponibles?</td></tr>
+          <tr><td>Oportunidad de agrupamiento</td><td>¿Puede combinarse con otras tareas cercanas o del mismo rubro?</td></tr>
+          <tr><td>Materiales disponibles</td><td>¿Existe stock, BAMUR o compra ya preparada?</td></tr>
+        </table>
+      </div>
+      <p class="prose" style="margin-top:12px">El puntaje es una ayuda a la decisión, no un reemplazo del criterio profesional: una emergencia de seguridad puede escalarse inmediatamente aunque su puntaje ordinario no haya sido completado.</p>
+    </section>
+
+    <section class="chapter" id="flujo">
+      <div class="chapter-head"><span class="chapter-num">04</span><h2>Flujo operativo</h2></div>
+      <p class="chapter-dek">De la solicitud a la Historia Clínica, pasando por materiales, cuadrillas y depósito — un único circuito.</p>
+
+      <h3 class="sub">Solicitud → Orden de Trabajo</h3>
+      <div class="flow">
+        <span class="flow-step">Solicitud</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Registro</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Evaluación técnica</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Prioridad</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Autorización</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Orden de Trabajo</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Materiales</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Programación</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Cuadrilla</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Ejecución</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Control / verificación</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Cierre</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Historia Clínica</span>
+      </div>
+      <p class="prose" style="margin-top:12px">Cada solicitud incluye edificio, solicitante, fecha, sector, descripción, fotografías y tipo de necesidad. Sin importar el canal de entrada, existe <strong>un único registro SIGEP</strong>. Cada Orden de Trabajo lleva número, edificio, sector, problema, prioridad, fotos, cuadrilla, responsable, materiales, horas, fecha, resultado y observaciones.</p>
+      <p class="prose" style="margin-top:12px">Al registrarse, el sistema <strong>clasifica automáticamente cada solicitud por rubro</strong> —albañilería, electricidad, plomería, pintura, y los que se agreguen— y calcula su prioridad en función de urgencia, riesgo, afectación del servicio y antigüedad del reclamo (además de ISE, criticidad funcional y recursos disponibles, ver capítulo 3). Esa prioridad calculada alimenta directamente, sin paso manual intermedio, la agenda de cada cuadrilla y el listado consolidado de materiales que se arma más abajo.</p>
+
+      <h3 class="sub">Programación inteligente de cuadrillas</h3>
+      <p class="prose">Agendas diarias y semanales que resuelven qué hacer, cuándo, quién, dónde y con qué materiales — agrupando tareas por prioridad, cercanía geográfica, rubro, edificio, herramientas y disponibilidad, para reducir viajes y tiempos improductivos. Determinadas intervenciones pueden programarse fuera del horario habitual de funcionamiento del edificio cuando sea técnicamente conveniente. El tablero diferencia, como mínimo, seis estados: Pendiente de evaluación, Pendiente de autorización, Pendiente de materiales, Programada, En ejecución y Finalizada — una tarea no se incorpora al cronograma como "lista para ejecutar" si necesita materiales que aún no están disponibles.</p>
+
+      <h3 class="sub">Compras, depósito y BAMUR</h3>
+      <div class="flow">
+        <span class="flow-step">OT</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Necesidad</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Stock municipal</span><span class="flow-arrow">→</span>
+        <span class="flow-step">BAMUR</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Compra si es necesaria</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Comparación de proveedores</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Autorización</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Retiro / entrega</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Ejecución</span>
+      </div>
+      <p class="prose" style="margin-top:12px">Antes de comprar: primero se verifica si hay material en depósito, después si hay material recuperado técnicamente reutilizable (BAMUR), y recién entonces se compra lo faltante. El depósito digital registra stock, ingresos, egresos, reservas, destino, responsable del retiro, OT asociada y edificio de destino — con identificación por QR o código. Objetivo: que una cuadrilla nunca llegue a una tarea y descubra en obra que le faltan materiales.</p>
+
+      <h3 class="sub">Base de proveedores y comparación previa</h3>
+      <p class="prose">Los corralones y proveedores habituales del Municipio quedan cargados en una base común, y Obras Públicas compara alternativas <strong>antes</strong> de autorizar el retiro — no después. Cuando una OT o una tarea programada requiere materiales, el responsable carga las cantidades previstas (por ejemplo: 20 bolsas de cemento, 10 de cal y 2 m³ de arena), y esa necesidad queda asociada al edificio, la intervención, la cuadrilla y la fecha prevista.</p>
+      <div class="table-wrap">
+        <table class="mini">
+          <tr><th>Dato comparado</th><th>Finalidad</th></tr>
+          <tr><td>Precio unitario y total</td><td>Comparar económicamente la necesidad completa.</td></tr>
+          <tr><td>Disponibilidad</td><td>Evitar seleccionar una oferta que no pueda abastecer la tarea.</td></tr>
+          <tr><td>Vigencia del precio</td><td>Evitar autorizar una compra con un presupuesto ya vencido.</td></tr>
+          <tr><td>Marca / calidad</td><td>Evitar comparar productos técnicamente diferentes como si fueran iguales.</td></tr>
+          <tr><td>Flete o condición de retiro</td><td>Conocer el costo y la logística real.</td></tr>
+          <tr><td>Plazo de entrega</td><td>Coordinar la compra con la programación de la cuadrilla.</td></tr>
+          <tr><td>Condición de pago</td><td>Aportar información a la autorización administrativa.</td></tr>
+        </table>
+      </div>
+      <p class="prose" style="margin-top:12px">La <strong>vigencia del precio</strong> y el retiro de materiales sin un precio estipulado de antemano son los tipos de errores administrativos que SIGEP 360 debe impedir por diseño, no corregir después. Cada movimiento queda relacionado con solicitante, autorización, proveedor, precio, fecha, edificio, OT, persona que retira y destino final — esto permite conocer cuánto material consume cada edificio o tipo de reparación y construir mejores presupuestos futuros.</p>
+      <p class="prose">La base de datos cuenta con un listado de precios que cada casa proveedora de materiales inscripta provee —con acceso limitado para actualizar su propio catálogo y precios— para poder hacer comparativas inmediatas, ya con un precio estipulado por los comercios, y generar el presupuesto antes del retiro.</p>
+
+      <div class="callout">
+        <h4>BAMUR (Banco Municipal de Materiales Recuperados)</h4>
+        <p>Inventario de materiales reutilizables (madera, pisos, puertas, ventanas, chapas, sanitarios, adoquines, mobiliario, elementos históricos), cada uno con código, origen, cantidad, estado, fotos y destino posterior. El caso real: en una intervención sobre el edificio original de la Escuela de Música se recuperó piso de pinotea en buen estado, que fue separado y resguardado para futuras reutilizaciones. Sin un registro como BAMUR, ese material se pierde de la memoria institucional en cuanto termina la obra. Con él, queda disponible para la próxima. Es economía circular aplicada a la gestión municipal — ver el caso documentado en el capítulo 9.</p>
+      </div>
+
+      <h3 class="sub">Ejemplo de funcionamiento integrado</h3>
+      <p class="prose">Un recorrido completo, de punta a punta, usando un escenario real de EMEAI:</p>
+      <div class="roadmap" style="margin-top:16px">
+        <div class="rm-item"><div class="rm-title">1 · Solicitud</div><div class="rm-text">EMEAI informa una filtración de cubierta y adjunta fotografías. (En el archivo real esto ya ocurrió: la "Reparación Cubierta" de 2013, $136.980, a cargo de Barrios Salvador — historia clínica real en el capítulo 9.)</div></div>
+        <div class="rm-item"><div class="rm-title">2 · Registro</div><div class="rm-text">SIGEP identifica automáticamente el edificio y crea el pedido.</div></div>
+        <div class="rm-item"><div class="rm-title">3 · Evaluación</div><div class="rm-text">Obras Públicas confirma que corresponde a cubierta/albañilería y evalúa riesgo.</div></div>
+        <div class="rm-item"><div class="rm-title">4 · Prioridad</div><div class="rm-text">El sistema pondera urgencia, afectación del servicio, usuarios, ISE y antigüedad.</div></div>
+        <div class="rm-item"><div class="rm-title">5 · Materiales</div><div class="rm-text">Se determinan membrana, selladores y otros insumos; primero se consulta depósito/BAMUR y luego proveedores.</div></div>
+        <div class="rm-item"><div class="rm-title">6 · Compra</div><div class="rm-text">Se comparan precios y disponibilidad; la opción seleccionada continúa por el circuito de autorización municipal.</div></div>
+        <div class="rm-item"><div class="rm-title">7 · Programación</div><div class="rm-text">La OT se asigna a una cuadrilla y fecha en la que materiales y personal estarán disponibles.</div></div>
+        <div class="rm-item"><div class="rm-title">8 · Ejecución</div><div class="rm-text">La cuadrilla recibe en el celular tarea, ubicación, fotos, materiales y observaciones.</div></div>
+        <div class="rm-item"><div class="rm-title">9 · Cierre</div><div class="rm-text">Se registran horas, materiales reales y fotografías antes/después.</div></div>
+        <div class="rm-item"><div class="rm-title">10 · Aprendizaje</div><div class="rm-text">La intervención se incorpora a la Historia Clínica Edilicia y alimenta costos, estadísticas y mantenimiento futuro.</div></div>
+      </div>
+
+      <div class="quote-rect" style="margin-top:20px; font-size:.95rem">EL EDIFICIO SOLICITA → EL SISTEMA REGISTRA → OBRAS PÚBLICAS EVALÚA → LA PRIORIDAD ORDENA → LOS MATERIALES SE PREPARAN → LA CUADRILLA EJECUTA → EL SISTEMA APRENDE</div>
+
+      <div class="callout" style="margin-top:20px">
+        <h4>Qué resuelve, en concreto, este circuito</h4>
+        <p>Menos pedidos perdidos o sin seguimiento. Prioridades técnicamente justificables. Mejor aprovechamiento de las cuatro cuadrillas. Menos viajes innecesarios para retirar o consultar materiales. Compras con información previa y comparación trazable. Costos históricos por edificio y tipo de intervención. En síntesis: pasar de resolver reclamos aislados a gestionar Obras Públicas de manera planificada, eficiente y trazable.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="prevencion">
+      <div class="chapter-head"><span class="chapter-num">05</span><h2>Prevención, mapa y sustentabilidad</h2></div>
+      <p class="chapter-dek">El mantenimiento preventivo, la georreferenciación real, el acceso por QR y la agenda ambiental — la parte del sistema que evita que se repita el ciclo de reparar siempre lo mismo.</p>
+
+      <h3 class="sub">Calendario de mantenimiento preventivo</h3>
+      <table class="mini">
+        <tr><th>Período</th><th>Frente de trabajo</th></tr>
+        <tr><td class="mono">Enero–marzo</td><td>Cubiertas, canaletas y desagües</td></tr>
+        <tr><td class="mono">Marzo–abril</td><td>Calefacción y gas</td></tr>
+        <tr><td class="mono">Mayo–junio</td><td>Limpieza de canaletas post otoño</td></tr>
+        <tr><td class="mono">Septiembre</td><td>Sanitarios y tanques</td></tr>
+      </table>
+      <p class="prose" style="margin-top:12px">Cada edificio tiene sus próprias inspecciones y alertas dentro del sistema.</p>
+
+      <div class="callout">
+        <h4>Programa piloto 2027 — Mapa de Riesgo de Cubiertas Municipales</h4>
+        <p>Se releva cada cubierta del parque edilicio y se clasifica en una de cuatro bandas, programando acciones antes de los períodos críticos:</p>
+        <div class="band-row" style="margin-top:12px">
+          <div class="band" style="background:var(--good)"><div class="bt">Correcta</div></div>
+          <div class="band" style="background:var(--warning); color:#231a00"><div class="bt">Observar</div></div>
+          <div class="band" style="background:var(--serious)"><div class="bt">Intervenir</div></div>
+          <div class="band" style="background:var(--critical)"><div class="bt">Urgente</div></div>
+        </div>
+      </div>
+
+      <h3 class="sub">Mapa SIGEP 360 y QR por edificio</h3>
+      <p class="prose">La cartografía de base es real: la Planta Urbana aportada por el Municipio, no un dibujo inventado. Debajo, un recorte con las 71 manzanas y barrios que la componen (Santa Teresita, El Embarcadero, La Terminal, El Tropezón, El Progreso, Martín Fierro, Padre Gallo, 25 de Mayo, La Perla, El Estadio, Jardín, La Feria, Villa Aurora, Bellas Artes, FONAVI 1 y 2, entre otros), con el Hospital y Obras Públicas ya identificados sobre el propio plano oficial.</p>
+      <div class="map-frame">
+        <img src="assets/planta-urbana-web.jpg" alt="Planta Urbana 2024 de Ayacucho, base cartográfica real del proyecto SIGEP 360" loading="lazy">
+      </div>
+      <p class="map-caption">Planta Urbana 2024, Municipalidad de Ayacucho — Secretaría de Obras y Servicios Públicos. Base cartográfica aportada para el proyecto.</p>
+      <p class="prose" style="margin-top:16px">Sobre esta base, el mapa SIGEP 360 permitirá filtrar los edificios por función y, en una segunda capa, por estado técnico (ISE), prioridad, OT abiertas, alertas e intervenciones — una cartografía viva que se actualiza junto con el inventario, no un dibujo estático. Cada edificio tiene además su propio código QR (Código de Respuesta Rápida): al escanearlo, según el rol del usuario, se puede consultar información, generar una solicitud, ver las OT, registrar una inspección o actualizar trabajos.</p>
+
+      <h3 class="sub">SIGEP Verde y Edificios Vivos</h3>
+      <p class="prose">Cada edificio incorpora progresivamente un <strong>Pasaporte Energético y Ambiental</strong>: electricidad, gas, agua, superficie, costo anual y consumo específico por m². Las medidas se priorizan por relación costo-beneficio y factibilidad: LED, reducción de pérdidas, mejoras de envolvente, protecciones solares, aislaciones, automatización, solar térmica, fotovoltaica y, donde un estudio de viabilidad lo justifique, bombas de calor o geotermia. Se suman acciones de bajo costo y alto valor ambiental: captación de agua de lluvia, compostaje, reducción de residuos, forestación estratégica y especies nativas — y, en dependencias con espacio adecuado, pequeños sectores de aromáticas (romero, burrito, lavanda) de uso responsable y bajo mantenimiento (Edificios Vivos).</p>
+      <div class="imp">
+        <span class="il">e</span>
+        <div><h4>Financiamiento externo para SIGEP Verde <span class="new-tag">Mejora</span></h4>
+        <p>La fase 2031–2033 (energías renovables, eficiencia energética) no tiene por qué salir solo de rentas generales: existen líneas provinciales y nacionales de eficiencia energética y energía renovable municipal a las que Ayacucho puede postularse. Incluir esa gestión de financiamiento como tarea explícita de la Jefatura, no como una esperanza tácita.</p></div>
+      </div>
+    </section>
+
+    <section class="chapter" id="gobernanza">
+      <div class="chapter-head"><span class="chapter-num">06</span><h2>Personas, gobernanza y riesgos</h2></div>
+      <p class="chapter-dek">SIGEP 360 no es un mecanismo de vigilancia del trabajador, y no puede depender de la buena voluntad de una sola gestión para sobrevivir. Son los puntos que un jurado técnico va a mirar con más atención.</p>
+
+      <h3 class="sub">Personal, capacitación e incentivos</h3>
+      <p class="prose">La tecnología debe reducir improvisación y tareas administrativas innecesarias, no vigilar al trabajador. Se propone un Programa de Reconocimiento por Objetivos de Equipo —sujeto a normativa laboral, disponibilidad presupuestaria y autorización competente— que puede considerar plazo, calidad, seguridad, orden, uso responsable de materiales, documentación y ausencia de retrabajos. Los reconocimientos podrán combinar incentivos económicos cuando legalmente sean posibles con capacitación, certificaciones y reconocimiento institucional; el enfoque es colectivo, para evitar competencia improductiva.</p>
+
+      <h3 class="sub">Autonomía técnica y continuidad institucional</h3>
+      <p class="prose">Las intervenciones que afecten estructura, accesibilidad, instalaciones, seguridad, patrimonio o funcionamiento cuentan con evaluación técnica previa de Obras Públicas. Los responsables de cada dependencia conservan la capacidad de plantear necesidades, pero la solución edilicia se integra a criterios técnicos y al historial del edificio (el caso de la Biblioteca, capítulo 1, es exactamente lo que este principio busca evitar). La información, los planos, los diagnósticos y las decisiones técnicas permanecen como patrimonio del Municipio más allá de quién ocupe temporalmente cada función — pero "la información pertenece al Municipio, no a una gestión" es una frase que necesita un instrumento concreto detrás:</p>
+
+      <div class="imp-grid">
+        <div class="imp">
+          <span class="il">a</span>
+          <div><h4>Ordenanza de creación de SIGEP 360 <span class="new-tag">Mejora</span></h4>
+          <p>Proyecto de ordenanza breve que declare a SIGEP 360 sistema de gestión patrimonial obligatorio de la Jefatura de Obras Públicas, establezca que los datos cargados son propiedad municipal (no de un proveedor ni de una gestión) y fije una continuidad presupuestaria mínima para su operación. Es la única garantía real, más allá del discurso, de que el sistema sobrevive a un cambio de gobierno.</p></div>
+        </div>
+      </div>
+
+      <h3 class="sub">Riesgos y medidas de control</h3>
+      <div class="table-wrap">
+        <table class="mini">
+          <tr><th>Riesgo</th><th>Respuesta propuesta</th></tr>
+          <tr><td>Resistencia al cambio</td><td>Implementación gradual, capacitación y participación de cuadrillas.</td></tr>
+          <tr><td>Datos incompletos</td><td>Campos mínimos obligatorios y revisión periódica.</td></tr>
+          <tr><td>Sistema demasiado complejo</td><td>Comenzar simple; incorporar funciones solo cuando agreguen valor.</td></tr>
+          <tr><td>Pérdida de continuidad</td><td>Procedimientos institucionales, roles definidos y respaldo de información.</td></tr>
+          <tr><td>Incentivos mal diseñados</td><td>Objetivos colectivos, control de calidad y sujeción a normativa.</td></tr>
+          <tr><td>Tecnología sin uso real</td><td>Priorizar problemas concretos y medir adopción.</td></tr>
+          <tr><td>Decisiones políticas sin evaluación técnica</td><td>Informe técnico previo para intervenciones relevantes.</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="chapter" id="indicadores">
+      <div class="chapter-head"><span class="chapter-num">07</span><h2>Indicadores e Inteligencia Artificial</h2></div>
+      <p class="chapter-dek">Lo que el Dashboard mide, y el rol —siempre asistente, nunca reemplazo— de la IA dentro del sistema.</p>
+
+      <div class="table-wrap">
+        <table class="mini">
+          <tr><th>Indicador</th><th>Qué permite medir</th></tr>
+          <tr><td>% de edificios con ficha completa</td><td>Cobertura del sistema</td></tr>
+          <tr><td>% de edificios inspeccionados en plazo</td><td>Disciplina preventiva</td></tr>
+          <tr><td>% OT preventivas / total OT</td><td>Cambio reactivo → preventivo</td></tr>
+          <tr><td>Tiempo medio de respuesta por prioridad</td><td>Capacidad operativa</td></tr>
+          <tr><td>% de OT cerradas con documentación completa</td><td>Calidad de información</td></tr>
+          <tr><td>Reincidencia de fallas por edificio</td><td>Calidad de solución</td></tr>
+          <tr><td>Costo de mantenimiento por m²</td><td>Eficiencia económica</td></tr>
+          <tr><td>Consumo energético por m²</td><td>Eficiencia energética</td></tr>
+          <tr><td>% materiales recuperados con trazabilidad</td><td>Economía circular</td></tr>
+          <tr><td>% cumplimiento del plan anual</td><td>Gestión</td></tr>
+          <tr><td>Capacitación por agente/año</td><td>Desarrollo de personas</td></tr>
+          <tr><td>Satisfacción interna de áreas usuarias</td><td>Calidad del servicio</td></tr>
+        </table>
+      </div>
+
+      <div class="imp" style="margin-top:16px">
+        <span class="il">k</span>
+        <div><h4>Costo en valor real, no en pesos nominales acumulados <span class="new-tag">Mejora</span></h4>
+        <p>El propio archivo histórico de Obras Públicas (2013–2023) lo demuestra: sumar el monto de una reparación de 2013 con el de una de 2023 no da una cifra financieramente significativa, por la inflación acumulada en el período. "Costo de mantenimiento por m²" (tabla de arriba) debe expresarse en una unidad de valor real y no en pesos históricos sumados sin ajustar. Es un detalle técnico, pero es el tipo de detalle que un jurado con formación económica nota inmediatamente.</p></div>
+      </div>
+
+      <h3 class="sub">Inteligencia Artificial: asistente, no reemplazo</h3>
+      <p class="prose">La IA se incorpora de forma gradual como herramienta de apoyo, nunca como sustituto de la inspección y responsabilidad profesional. Puede ayudar a ordenar fotografías, detectar patrones, comparar antecedentes, sugerir reincidencias y priorizar revisiones. Ejemplo: si un edificio acumula varias reparaciones similares de cubierta en pocos años, el sistema puede advertir la repetición y sugerir evaluar una solución integral en lugar de continuar con parches aislados. Toda recomendación generada por herramientas automáticas debe ser validada por personal técnico antes de transformarse en una decisión de obra.</p>
+
+      <div class="imp" style="margin-top:16px">
+        <span class="il">f</span>
+        <div><h4>Tablero público de gobierno abierto <span class="new-tag">Mejora</span></h4>
+        <p>Una versión pública y de solo lectura del Dashboard —ISE por edificio, OT en curso, sin datos sensibles— sobre la misma base de datos, con otra interfaz. Convierte un argumento de transparencia en un entregable concreto, sin desarrollo adicional relevante sobre la arquitectura ya planteada.</p></div>
+      </div>
+      <div class="imp" style="margin-top:10px">
+        <span class="il">h</span>
+        <div><h4>ROI cuantificado del enfoque preventivo <span class="new-tag">Mejora</span></h4>
+        <p>Según referencias del sector, una intervención preventiva cuesta entre 3 y 5 veces menos que la reparación reactiva de la misma falla agravada. Vale citarlo, con esa prudencia, como argumento económico del cambio de modelo — el "% OT preventivas / total OT" de la tabla de arriba es, en definitiva, un indicador de ahorro.</p></div>
+      </div>
+    </section>
+
+    <section class="chapter" id="arquitectura">
+      <div class="chapter-head"><span class="chapter-num">08</span><h2>Una sola plataforma y hoja de ruta</h2></div>
+      <p class="chapter-dek">Una decisión conceptual (una sola base de datos, distintas interfaces), una arquitectura tecnológica deliberadamente liviana, y un camino de diez años que empieza con un inicio chico y real.</p>
+
+      <h3 class="sub">Una plataforma, distintas interfaces</h3>
+      <p class="prose">No se desarrollan aplicaciones independientes. Una <strong>única base de datos central</strong>, con interfaces distintas según el usuario: Jefe de Obras Públicas (mapa, patrimonio, ISE, prioridades, OT, cuadrillas, materiales, indicadores), Responsable de edificio (solicitud, fotos, seguimiento), Cuadrilla (trabajos del día, ubicación, instrucciones, materiales, cierre), Depósito (stock, reservas, BAMUR), Compras (necesidades, presupuestos, proveedores), Secretaría (autorizaciones, presupuesto, tablero ejecutivo) y, más adelante, Proveedor (actualización limitada de catálogo/precios).</p>
+
+      <h3 class="sub">Presupuesto e implementación</h3>
+      <p class="prose">El presupuesto de Obras Públicas es organizado y autorizado por la Secretaría — SIGEP 360 no propone una autonomía presupuestaria ajena a la estructura vigente. Propone mejorar la calidad de la información con la que se formula, solicita, autoriza y controla el gasto. La implementación inicial privilegia herramientas de bajo costo: inventario, procedimientos, formularios digitales, cartografía, QR y tableros; las inversiones mayores —sensores, renovables, software específico— se justifican mediante proyectos, ahorro esperado, criticidad y disponibilidad presupuestaria.</p>
+      <div class="imp" style="margin-top:10px">
+        <span class="il">d</span>
+        <div><h4>Costos por fase, en orden de magnitud <span class="new-tag">Mejora</span></h4>
+        <p>El MVP (Producto Mínimo Viable) 2027 se construye sobre un stack de bajo costo —PWA más base de datos abierta, sin licenciamiento por usuario— precisamente para no atar al Municipio a un proveedor caro desde el día uno. Un jurado evalúa viabilidad económica tanto como idea.</p></div>
+      </div>
+
+      <h3 class="sub">MVP 2027</h3>
+      <p class="prose">Pequeño, pero funcionando de verdad. No se intenta construir todo SIGEP 360 al mismo tiempo.</p>
+      <div class="field-list">
+        <span class="field-chip">1. Inventario de las 71 dependencias</span>
+        <span class="field-chip">2. Ficha digital</span>
+        <span class="field-chip">3. Planos / fotos / documentos</span>
+        <span class="field-chip">4. Solicitudes (SIGEP + WhatsApp)</span>
+        <span class="field-chip">5. Órdenes de Trabajo</span>
+        <span class="field-chip">6. Priorización</span>
+        <span class="field-chip">7. Agenda de cuadrillas</span>
+        <span class="field-chip">8. Materiales / depósito básico</span>
+        <span class="field-chip">9. QR</span>
+        <span class="field-chip">10. Dashboard básico</span>
+      </div>
+
+      <div class="imp" style="margin-top:16px">
+        <span class="il">c</span>
+        <div><h4>Sprint de diagnóstico "Año 0" <span class="new-tag">Mejora</span></h4>
+        <p>Antes de que el MVP esté operativo, un relevamiento acotado (fines de 2026 / inicio de 2027) calcula el ISE inicial de los 71 edificios. Es barato —una planilla y una recorrida— y resuelve el problema de fondo: hoy no existe una línea de base contra la cual medir, en 2031, si el sistema efectivamente mejoró algo.</p></div>
+      </div>
+
+      <h3 class="sub">Hoja de ruta 2027–2037</h3>
+      <div class="roadmap">
+        <div class="rm-item"><div class="rm-year">2027 — Ordenar</div><div class="rm-text">Inventario dinámico, codificación, mapa, fichas, relevamiento inicial, piloto de cubiertas y Orden de Trabajo. Incluye el sprint de diagnóstico Año 0.</div></div>
+        <div class="rm-item"><div class="rm-year">2028 — Estandarizar</div><div class="rm-text">ISE, criticidad, protocolos preventivos, QR, planificación sistemática de cuadrillas.</div></div>
+        <div class="rm-item"><div class="rm-year">2029–2030 — Medir</div><div class="rm-text">Pasaporte energético, indicadores, BAMUR, consumos y primeros proyectos de eficiencia.</div></div>
+        <div class="rm-item"><div class="rm-year">2031–2033 — Integrar</div><div class="rm-text">Tablero avanzado, sensores donde aporten valor, automatización, proyectos ambientales y energéticos piloto, con financiamiento externo gestionado.</div></div>
+        <div class="rm-item"><div class="rm-year">2034–2037 — Anticipar</div><div class="rm-text">Analítica histórica, asistencia con IA, mantenimiento predictivo y consolidación del Plan Director.</div></div>
+      </div>
+    </section>
+
+    <section class="chapter" id="emeai">
+      <div class="chapter-head"><span class="chapter-num">09</span><h2>Caso piloto: EMEAI (Escuela Municipal de Enseñanza Artística e Idiomas)</h2></div>
+      <p class="chapter-dek">Antes Escuela de Música — no es un ejemplo hipotético: es el edificio con el que se probó el concepto, con material real del archivo municipal.</p>
+
+      <div class="prose">
+        <p>El Municipio ya produjo, durante más de una década, planos, fotografías y conocimiento técnico sobre EMEAI: relevamiento fotográfico desde 2013, plano de obra existente actualizado a 2026, y el registro de 25 intervenciones reales en el archivo de compras de Obras Públicas. El problema nunca fue la falta de información — fue que esa información vive dispersa en carpetas, discos y memorias individuales. <strong>SIGEP 360 convierte años de trabajo en memoria institucional</strong>, y la vuelve información para decidir qué hacer mañana.</p>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat"><span class="n mono">1.150,73</span><span class="l">m² construidos (cubierta + semicubierta)</span></div>
+        <div class="stat"><span class="n mono">1.641,87</span><span class="l">m² de terreno (parcelas 10 y 11)</span></div>
+        <div class="stat"><span class="n mono">25</span><span class="l">intervenciones documentadas, 2013–2023</span></div>
+        <div class="stat"><span class="n mono">≈72</span><span class="l">ISE de ejemplo, banda "Atención" — ilustrativo</span></div>
+      </div>
+
+      <p class="prose">El plano de obra existente identifica aulas, Dirección, Preceptoría, Secretaría, depósitos, aula de percusión, estudio de grabación, Sala de Presentaciones, sanitarios, patios y salidas de emergencia — la base exacta sobre la que se construyó el plano interactivo del piloto: tocar un sector del plano y ver su historia real, incluidos los sectores que <strong>no</strong> tienen intervenciones registradas, que son tan reveladores como los que sí.</p>
+
+      <div class="qr-card">
+        <a href="../emeai/artifact/" target="_blank" rel="noopener" id="qrcode">
+          <img src="assets/qr-emeai.png" width="118" height="118" alt="Código QR hacia la ficha digital de EMEAI">
+        </a>
+        <div class="qr-text">
+          <div class="t">Así funciona el QR por edificio</div>
+          <div class="s">Cada una de las 71 dependencias tendrá el suyo (ver capítulo 5). Este apunta a la ficha digital de EMEAI — en este piloto, el plano interactivo con su Historia Clínica Edilicia completa. Sirve tanto para escanear desde el celular como para hacer clic directamente.</div>
+        </div>
+      </div>
+
+      <div class="link-card">
+        <div><div class="t">Ver el piloto interactivo completo</div><div class="s">Plano clickeable, línea de tiempo fotográfica 2013–2026, historia clínica real y trayectoria institucional</div></div>
+        <a href="../emeai/artifact/" target="_blank" rel="noopener">Abrir EMEAI · SIGEP 360 ↗</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="anexos">
+      <div class="chapter-head"><span class="chapter-num">10</span><h2>Anexos operativos</h2></div>
+      <p class="chapter-dek">Dos plantillas de referencia — el contenido mínimo que va a pedir el sistema, independientemente de la pantalla en la que termine implementado.</p>
+
+      <h3 class="sub">Anexo A — Modelo de Ficha SIGEP</h3>
+      <div class="field-list">
+        <span class="field-chip">Código SIGEP</span><span class="field-chip">Dependencia</span><span class="field-chip">Función</span>
+        <span class="field-chip">Dirección / ubicación</span><span class="field-chip">Nomenclatura / partida</span><span class="field-chip">Superficie</span>
+        <span class="field-chip">Responsable de uso</span><span class="field-chip">Año / antigüedad estimada</span><span class="field-chip">Sistema constructivo</span>
+        <span class="field-chip">Estructura</span><span class="field-chip">Cubierta</span><span class="field-chip">Instalación eléctrica</span>
+        <span class="field-chip">Instalación sanitaria</span><span class="field-chip">Gas / climatización</span><span class="field-chip">Accesibilidad</span>
+        <span class="field-chip">Seguridad</span><span class="field-chip">ISE</span><span class="field-chip">Criticidad funcional</span>
+        <span class="field-chip">Última inspección</span><span class="field-chip">Próxima inspección</span><span class="field-chip">OT abiertas</span>
+        <span class="field-chip">Consumos</span><span class="field-chip">Fotografías / planos</span>
+      </div>
+
+      <h3 class="sub">Anexo B — Modelo de Orden de Trabajo</h3>
+      <div class="field-list">
+        <span class="field-chip">N° OT</span><span class="field-chip">Fecha y hora de ingreso</span><span class="field-chip">Dependencia</span>
+        <span class="field-chip">Solicitante / canal</span><span class="field-chip">Descripción</span><span class="field-chip">Fotografías</span>
+        <span class="field-chip">Especialidad</span><span class="field-chip">Prioridad</span><span class="field-chip">Evaluación técnica</span>
+        <span class="field-chip">Autorización</span><span class="field-chip">Cuadrilla asignada</span><span class="field-chip">Fecha programada</span>
+        <span class="field-chip">Horario conveniente</span><span class="field-chip">Materiales previstos</span><span class="field-chip">Trabajo ejecutado</span>
+        <span class="field-chip">Horas utilizadas</span><span class="field-chip">Materiales utilizados</span><span class="field-chip">Control final</span>
+        <span class="field-chip">Fotos antes/después</span><span class="field-chip">Próxima acción</span><span class="field-chip">Fecha de cierre</span>
+      </div>
+
+      <h3 class="sub">Anexo C — Fuentes de trabajo utilizadas</h3>
+      <div class="prose">
+        <p>Inventario de dependencias municipales aportado para el proyecto (base inicial de 71 dependencias, sujeto a actualización). Planta Urbana 2024 de Ayacucho, aportada como base cartográfica (capítulo 5). Documento "Pautas y recomendaciones generales para establecer un programa de trabajos y mantenimiento..." aportado como antecedente conceptual. Información operativa suministrada por la Jefatura: estructura de cuadrillas, horario, circuito de pedidos, presupuesto, depósito, equipamiento, patologías recurrentes y criterios de gestión. A esto se suma, para el caso piloto EMEAI (capítulo 9): el plano de obra existente, el archivo fotográfico municipal 2013–2023 y el registro real de órdenes de compra de Obras Públicas.</p>
+        <p class="muted" style="font-size:.82rem">Nota: los indicadores, ponderaciones del ISE, circuitos y etapas de este documento son propuestas de diseño de SIGEP 360 y deberán validarse durante la implementación.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="objetivo">
+      <div class="chapter-head"><span class="chapter-num">11</span><h2>Objetivo final</h2></div>
+      <p class="prose">SIGEP 360 busca que Obras Públicas deje de ser, exclusivamente, el área que responde cuando algo se rompe. Debe convertirse en el área municipal que conoce, diagnostica, prioriza, planifica, presupuesta, programa, ejecuta, controla, documenta, mide, aprende y anticipa.</p>
+      <p class="prose">El objetivo no es digitalizar el desorden. Es rediseñar primero el sistema de trabajo, y usar la tecnología para hacerlo posible. Técnicamente sólido. Económicamente realizable. Escalable. Fácil de usar. Sostenible en el tiempo. Independiente de los cambios de gestión. Replicable por otras áreas municipales y otros municipios.</p>
+
+      <h3 class="sub">Resultado esperado al 2037</h3>
+      <ul class="checklist">
+        <li>100% del patrimonio incorporado a un inventario dinámico.</li>
+        <li>Historial técnico disponible para cada dependencia.</li>
+        <li>Mayor proporción de mantenimiento preventivo y menor dependencia de emergencias.</li>
+        <li>Prioridades justificadas mediante criterios objetivos.</li>
+        <li>Mejor trazabilidad de materiales y reutilización.</li>
+        <li>Información energética para orientar inversiones.</li>
+        <li>Cuadrillas con planificación, objetivos y reconocimiento.</li>
+        <li>Decisiones edilicias documentadas y técnicamente respaldadas.</li>
+        <li>Indicadores que permitan demostrar resultados y corregir desvíos.</li>
+        <li>Un modelo de gestión replicable en otras áreas municipales.</li>
+      </ul>
+
+      <div class="quote-rect" style="margin-top:22px; font-size:1rem">El éxito de SIGEP 360 no se medirá solamente por cuántas obras se ejecuten, sino por cuánto conocimiento, capacidad preventiva y orden institucional quede instalado para quienes continúen gestionando el patrimonio municipal.</div>
+
+      <div class="quote-rect" style="margin-top:20px; font-size:1.5rem">"De reparar edificios a gestionar patrimonio."</div>
+    </section>
+
+    <footer class="doc-footer">
+      <p>SIGEP 360 — Sistema Inteligente de Gestión para los Edificios Públicos.<br>Plan estratégico 2027–2037 · Municipalidad de Ayacucho.</p>
+    </footer>
+  </main>
+</div>

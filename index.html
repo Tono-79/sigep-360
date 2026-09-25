@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SIGEP 360 · Municipalidad de Ayacucho</title>
+<meta name="description" content="SIGEP 360 — Sistema Inteligente de Gestión para los Edificios Públicos. Concurso de Jefatura de Obras Públicas, Municipalidad de Ayacucho.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    color-scheme: light;
+    --bg:#FAFAF8; --surface:#FFFFFF; --ink:#161512; --ink-2:#514E46; --ink-muted:#8A867C;
+    --border:rgba(22,21,18,.13); --accent:#184F95; --accent-soft:#2a78d6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ color-scheme: dark; --bg:#121210; --surface:#1A1917; --ink:#F5F4F0; --ink-2:#C7C3B8; --ink-muted:#8f8b80; --border:rgba(255,255,255,.14); --accent:#86b6ef; --accent-soft:#3987e5; }
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:"IBM Plex Sans",sans-serif; line-height:1.6; padding:0 20px; }
+  .wrap{ max-width:720px; margin:0 auto; }
+  .label{ font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-muted); }
+  header{ padding:80px 0 50px; text-align:center; }
+  h1{ font-family:"Newsreader",serif; font-weight:300; font-size:clamp(2.2rem,6vw,3.4rem); margin:22px 0 0; line-height:1.1; }
+  h1 em{ font-style:italic; color:var(--accent-soft); font-weight:400; }
+  p.lead{ font-size:1.02rem; color:var(--ink-2); max-width:52ch; margin:20px auto 0; }
+  .cards{ display:flex; flex-direction:column; gap:1px; background:var(--border); border:1px solid var(--border); margin:50px 0 60px; }
+  .card{ background:var(--surface); padding:26px 28px; text-decoration:none; color:inherit; display:block; transition:background .15s ease; }
+  .card:hover{ background:var(--bg); }
+  .card .k{ font-family:"IBM Plex Mono",monospace; font-size:.68rem; color:var(--accent-soft); letter-spacing:.08em; text-transform:uppercase; }
+  .card h2{ font-family:"Newsreader",serif; font-weight:400; font-size:1.4rem; margin:8px 0 6px; color:var(--ink); }
+  .card p{ font-size:.88rem; color:var(--ink-2); margin:0; }
+  .card .go{ font-family:"IBM Plex Mono",monospace; font-size:.78rem; color:var(--accent-soft); margin-top:10px; display:block; }
+  footer{ text-align:center; padding:20px 0 60px; color:var(--ink-muted); font-size:.76rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="label">Concurso Jefatura de Obras Públicas · Municipalidad de Ayacucho</div>
+    <h1>SIGEP 360 <br><em>de reparar edificios a gestionar patrimonio.</em></h1>
+    <p class="lead">Sistema Inteligente de Gestión para los Edificios Públicos. Plan estratégico de transformación de la Jefatura de Obras Públicas, período 2027–2037.</p>
+  </header>
+
+  <div class="cards">
+    <a class="card" href="dossier/">
+      <span class="k">Dossier completo</span>
+      <h2>El plan estratégico, capítulo por capítulo</h2>
+      <p>Diagnóstico, arquitectura en 7 niveles, flujo operativo, mapa oficial, gobernanza, indicadores, hoja de ruta 2027–2037 y anexos operativos.</p>
+      <span class="go">Leer el dossier →</span>
+    </a>
+    <a class="card" href="presentacion-minimal/">
+      <span class="k">Presentación interactiva</span>
+      <h2>Una síntesis navegable del proyecto</h2>
+      <p>ISE en vivo, mapa oficial, hoja de ruta interactiva y los dos casos reales (EMEAI y Biblioteca).</p>
+      <span class="go">Ver la presentación →</span>
+    </a>
+    <a class="card" href="emeai/artifact/">
+      <span class="k">Caso piloto real</span>
+      <h2>EMEAI: diez años de archivo municipal</h2>
+      <p>Plano clickeable, línea de tiempo fotográfica 2013–2026, historia clínica edilicia real, ISE de ejemplo y plan de sustentabilidad energética con datos reales de EDEA.</p>
+      <span class="go">Abrir el piloto EMEAI →</span>
+    </a>
+  </div>
+
+  <footer>Construido con planos, fotografías y registros reales del archivo de Obras Públicas de la Municipalidad de Ayacucho.</footer>
+</div>
+</body>
+</html>

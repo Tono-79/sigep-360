@@ -1,0 +1,125 @@
+<title>SIGEP 360 · Elegí el estilo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:opsz,wght@9..144,300;9..144,600&family=Work+Sans:wght@400;500;600&family=Fredoka:wght@500;600;700&family=Newsreader:ital,wght@0,300;0,400;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ margin:0; font-family:"IBM Plex Sans",sans-serif; background:#111; }
+  img{ max-width:100%; display:block; }
+  .bar{
+    position:sticky; top:0; z-index:50; background:#111; color:#fff; padding:12px 18px;
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap; font-size:.82rem;
+    border-bottom:1px solid #333;
+  }
+  .bar b{ font-weight:700; }
+  .bar a{ color:#9ec5f4; text-decoration:none; padding:4px 10px; border:1px solid #444; border-radius:99px; }
+  .bar a:hover{ background:#222; }
+  .opt{ min-height:88vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; padding:60px max(20px, 6vw); }
+  .opt .tag{ position:absolute; top:22px; left:max(20px,6vw); font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; z-index:5; }
+  .opt .pick{ position:absolute; bottom:26px; left:max(20px,6vw); font-size:.85rem; z-index:5; }
+
+  /* ============ OPCIÓN 1 — AUDAZ / SEÑALÉTICA DE OBRA ============ */
+  #op1{ background:#141311; color:#F4F1E8; }
+  #op1 .stripe{
+    position:absolute; inset:0; opacity:.5;
+    background:repeating-linear-gradient(135deg, #E8491D 0 26px, #141311 26px 52px);
+    -webkit-mask-image:linear-gradient(180deg, transparent 0%, transparent 55%, black 100%);
+    mask-image:linear-gradient(180deg, transparent 0%, transparent 55%, black 100%);
+  }
+  #op1 .content{ position:relative; z-index:2; max-width:900px; }
+  #op1 .eyebrow{ display:inline-block; background:#E8491D; color:#141311; font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; padding:6px 12px; transform:rotate(-2deg); margin-bottom:22px; }
+  #op1 h1{ font-family:"Bebas Neue",sans-serif; font-size:clamp(4rem,13vw,9rem); line-height:.85; margin:0; letter-spacing:.01em; }
+  #op1 h1 span{ color:#E8491D; }
+  #op1 p{ font-size:1.15rem; color:#cfc9ba; max-width:46ch; margin-top:18px; line-height:1.5; }
+  #op1 .stamp{
+    margin-top:26px; display:inline-flex; align-items:center; gap:10px; border:2px solid #E8491D; color:#E8491D;
+    padding:8px 16px; font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:.78rem; transform:rotate(-1.5deg);
+  }
+
+  /* ============ OPCIÓN 2 — OSCURA PREMIUM ============ */
+  #op2{ background:#0c0d0c; color:#F2EFE8; }
+  #op2::before{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(ellipse 60% 50% at 75% 40%, rgba(201,162,75,.14), transparent 70%);
+  }
+  #op2 .content{ position:relative; z-index:2; max-width:760px; }
+  #op2 .eyebrow{ font-family:"Work Sans",sans-serif; font-size:.72rem; letter-spacing:.28em; text-transform:uppercase; color:#C9A24B; margin-bottom:26px; }
+  #op2 h1{ font-family:"Fraunces",serif; font-weight:300; font-style:italic; font-size:clamp(2.6rem,7vw,5.2rem); line-height:1.02; margin:0; color:#F2EFE8; }
+  #op2 h1 em{ font-style:normal; font-weight:600; color:#C9A24B; }
+  #op2 .rule{ width:60px; height:1px; background:#C9A24B; margin:26px 0; }
+  #op2 p{ font-family:"Work Sans",sans-serif; font-size:1.05rem; color:#a8a29a; max-width:48ch; line-height:1.7; }
+  #op2 .num{ font-family:"Fraunces",serif; font-size:3rem; color:#C9A24B; font-weight:300; }
+
+  /* ============ OPCIÓN 3 — CÁLIDA / VIBRANTE ============ */
+  #op3{ background:linear-gradient(155deg,#F2A950 0%, #E8622C 55%, #C43D1F 100%); color:#2A1608; }
+  #op3 .content{ position:relative; z-index:2; max-width:820px; }
+  #op3 .eyebrow{ display:inline-flex; align-items:center; gap:8px; background:#2A1608; color:#F2D9A0; font-family:"IBM Plex Sans",sans-serif; font-weight:600; font-size:.76rem; padding:7px 14px; border-radius:99px; margin-bottom:24px; }
+  #op3 h1{ font-family:"Fredoka",sans-serif; font-weight:700; font-size:clamp(3rem,8vw,6rem); line-height:.95; margin:0; color:#2A1608; }
+  #op3 p{ font-family:"IBM Plex Sans",sans-serif; font-size:1.1rem; color:#3d2210; max-width:44ch; margin-top:18px; line-height:1.55; font-weight:500; }
+  #op3 .blob{ position:absolute; width:420px; height:420px; border-radius:50%; background:#0F6E6E; opacity:.15; right:-120px; top:-80px; }
+  #op3 .chip{ display:inline-flex; margin-top:26px; background:#0F6E6E; color:#fff; font-weight:600; padding:10px 20px; border-radius:99px; font-size:.9rem; }
+
+  /* ============ OPCIÓN 4 — MINIMALISTA ============ */
+  #op4{ background:#FAFAF7; color:#161512; }
+  #op4 .content{ max-width:680px; margin:0 auto; text-align:center; }
+  #op4 .eyebrow{ font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:#8a867c; margin-bottom:30px; }
+  #op4 h1{ font-family:"Newsreader",serif; font-weight:300; font-size:clamp(2.4rem,6vw,4.4rem); line-height:1.08; margin:0; }
+  #op4 h1 i{ font-style:italic; color:#B5482A; }
+  #op4 .line{ width:1px; height:50px; background:#ccc; margin:36px auto; }
+  #op4 p{ font-family:"Newsreader",serif; font-size:1.15rem; font-style:italic; color:#514e46; max-width:42ch; margin:0 auto; line-height:1.6; }
+</style>
+
+<div class="bar">
+  <b>SIGEP 360 — 4 direcciones para la presentación</b>
+  <a href="#op1">1 · Audaz</a><a href="#op2">2 · Oscura premium</a><a href="#op3">3 · Cálida</a><a href="#op4">4 · Minimalista</a>
+</div>
+
+<section class="opt" id="op1">
+  <div class="stripe"></div>
+  <div class="tag">Opción 1 — Obra / señalética</div>
+  <div class="content">
+    <span class="eyebrow">Concurso · Jefatura de Obras Públicas</span>
+    <h1>SIGEP<br><span>360</span></h1>
+    <p>De reparar edificios a gestionar patrimonio. Tipografía de cartel de obra, franjas de seguridad, contraste alto — la estética de un sitio en construcción, no de una oficina.</p>
+    <div class="stamp">◆ MUNICIPALIDAD DE AYACUCHO</div>
+  </div>
+  <div class="pick">Elegís esta si querés algo con carácter, crudo, con energía de "obra viva".</div>
+</section>
+
+<section class="opt" id="op2">
+  <div class="tag">Opción 2 — Oscura premium</div>
+  <div class="content">
+    <span class="eyebrow">Plan Estratégico 2027 — 2037</span>
+    <h1>Gestionar <em>patrimonio</em>,<br>no apagar incendios.</h1>
+    <div class="rule"></div>
+    <p>Fondo oscuro, serifa elegante, dorado apagado, mucho aire. La estética de un estudio de arquitectura de alto nivel — sobria, segura de sí misma, sin gritar.</p>
+    <div class="num">SIGEP 360</div>
+  </div>
+  <div class="pick">Elegís esta si querés que se vea "caro", serio, confiable — menos técnico, más institucional refinado.</div>
+</section>
+
+<section class="opt" id="op3">
+  <div class="blob"></div>
+  <div class="tag" style="color:#2A1608">Opción 3 — Cálida / vibrante</div>
+  <div class="content">
+    <span class="eyebrow">✦ Municipalidad de Ayacucho</span>
+    <h1>Ayacucho<br>cuida lo suyo.</h1>
+    <p>Colores de atardecer bonaerense, tipografía redondeada y amigable, mucha calidez humana. Menos "sistema de gestión", más "esto lo hacemos entre todos".</p>
+    <span class="chip">SIGEP 360 →</span>
+  </div>
+  <div class="pick">Elegís esta si querés algo cercano, optimista, menos frío/corporativo.</div>
+</section>
+
+<section class="opt" id="op4">
+  <div class="tag" style="color:#8a867c">Opción 4 — Minimalista</div>
+  <div class="content">
+    <span class="eyebrow">SIGEP 360</span>
+    <h1>De reparar edificios<br>a <i>gestionar patrimonio.</i></h1>
+    <div class="line"></div>
+    <p>Casi todo blanco, una sola idea por pantalla, tipografía editorial fina. La estética de una revista de arquitectura — nada compite por tu atención.</p>
+  </div>
+  <div class="pick" style="left:0; right:0; text-align:center; color:#8a867c">Elegís esta si querés máxima calma visual, cero ruido, foco total en el contenido.</div>
+</section>
+
+<div style="background:#111;color:#aaa;text-align:center;padding:40px 20px;font-family:'IBM Plex Sans',sans-serif;font-size:.85rem">
+  Decime el número (o una combinación, tipo "el 2 pero con los colores del 3") y te construyo la presentación completa en esa línea.
+</div>

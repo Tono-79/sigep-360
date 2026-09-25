@@ -1,0 +1,7 @@
+# Fotos originales sin curar (~1.9 GB) — regenerables extrayendo los .rar
+# originales desde D:\Usuario\Escritorio\concurso obras publicas\
+# La selección curada SÍ se versiona: ver emeai/fotos-seleccionadas/
+emeai/fotos-historicas/
+
+# Dependencias de Node (regenerables con `npm install` a partir de package.json)
+node_modules/

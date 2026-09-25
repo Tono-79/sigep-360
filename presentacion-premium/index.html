@@ -1,0 +1,418 @@
+<title>SIGEP 360 · Patrimonio Municipal</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{ color-scheme: dark; }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:#0B0C0A; color:#F2EFE8; font-family:"Work Sans",sans-serif; line-height:1.65;
+    padding-left:max(20px, env(safe-area-inset-left,0px)); padding-right:max(20px, env(safe-area-inset-right,0px));
+  }
+  :root{
+    --bg:#0B0C0A; --surface:#161712; --surface-2:#1E1F19;
+    --ink:#F2EFE8; --ink-2:#A8A29A; --ink-muted:#726C60;
+    --border:rgba(201,162,75,.20); --border-soft:rgba(255,255,255,.08);
+    --gold:#C9A24B; --gold-soft:#E0C583;
+    --good:#7FBB6E; --warning:#D9B34F; --serious:#D98A5C; --critical:#D3695F;
+  }
+  .serif{ font-family:"Fraunces",serif; }
+  .mono{ font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; }
+  img{ max-width:100%; display:block; }
+  a{ color:var(--gold-soft); }
+  ::selection{ background:var(--gold); color:#1a1305; }
+
+  .wrap{ max-width:900px; margin:0 auto; }
+  .label{ font-family:"Work Sans",sans-serif; font-size:.72rem; letter-spacing:.26em; text-transform:uppercase; color:var(--gold); }
+
+  /* ---- hero ---- */
+  header.hero{ position:relative; overflow:hidden; padding:90px 0 80px; }
+  header.hero::before{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(ellipse 55% 45% at 78% 30%, rgba(201,162,75,.16), transparent 68%);
+    pointer-events:none;
+  }
+  .hero-inner{ position:relative; max-width:760px; }
+  h1.thesis{ font-family:"Fraunces",serif; font-weight:300; font-style:italic; font-size:clamp(2.5rem,6.6vw,4.6rem); line-height:1.06; margin:26px 0 0; color:#F2EFE8; }
+  h1.thesis em{ font-style:normal; font-weight:600; color:var(--gold); }
+  .rule{ width:64px; height:1px; background:var(--gold); margin:30px 0; opacity:.6; }
+  p.lead{ font-size:1.08rem; color:var(--ink-2); max-width:52ch; }
+  .brandmark{ margin-top:34px; font-family:"IBM Plex Mono",monospace; font-size:.8rem; color:var(--ink-muted); letter-spacing:.05em; }
+  .brandmark b{ color:var(--gold); }
+  .statline{ margin-top:46px; display:flex; flex-wrap:wrap; gap:0; }
+  .statline .s{ padding:0 30px 0 0; margin-right:30px; border-right:1px solid var(--border); }
+  .statline .s:last-child{ border-right:none; }
+  .statline .n{ font-family:"Fraunces",serif; font-weight:300; font-size:1.9rem; color:var(--ink); }
+  .statline .l{ font-size:.7rem; color:var(--ink-muted); margin-top:2px; }
+  @media (max-width:560px){ .statline .s{ border-right:none; padding:0; margin:0 0 14px; width:100%; } }
+
+  /* ---- chapters ---- */
+  section.chapter{ padding:74px 0; border-top:1px solid var(--border-soft); }
+  .chapter-head{ margin-bottom:40px; max-width:70ch; }
+  .chapter-head .label{ margin-bottom:16px; display:block; }
+  .chapter-head h2{ font-family:"Fraunces",serif; font-weight:400; font-style:italic; font-size:clamp(1.7rem,3.6vw,2.5rem); margin:0; color:#F2EFE8; }
+  .chapter-head p{ color:var(--ink-2); margin-top:14px; }
+
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion:reduce){ .reveal{ opacity:1; transform:none; } }
+
+  .card{ border:1px solid var(--border); background:var(--surface); border-radius:2px; padding:26px 28px; }
+
+  /* ---- diagnóstico ---- */
+  .diag-toggle{
+    display:inline-flex; align-items:center; gap:10px; background:none; border:1px solid var(--border);
+    border-radius:2px; padding:9px 18px; cursor:pointer; font-family:"IBM Plex Mono",monospace; font-size:.76rem; color:var(--ink); margin-bottom:32px;
+  }
+  .diag-toggle .sw{ width:30px; height:15px; border-radius:99px; background:var(--surface-2); position:relative; }
+  .diag-toggle .sw::after{ content:''; position:absolute; top:2px; left:2px; width:11px; height:11px; border-radius:50%; background:var(--ink-muted); transition:transform .25s; }
+  .diag-toggle.on .sw::after{ transform:translateX(15px); background:var(--gold); }
+  .diag-cols{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border-soft); }
+  @media (max-width:640px){ .diag-cols{ grid-template-columns:1fr; } }
+  .diag-col{ background:var(--bg); padding:28px 30px; }
+  .diag-col .k{ font-family:"IBM Plex Mono",monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-muted); margin-bottom:18px; }
+  .diag-col ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:13px; }
+  .diag-col li{ font-size:.94rem; color:var(--ink-2); transition:opacity .4s ease; }
+  .diag-col.today.faded li{ opacity:.35; }
+  .diag-col.sigep{ opacity:.25; transition:opacity .5s ease; }
+  .diag-col.sigep.show{ opacity:1; }
+  .diag-col.sigep li b{ color:var(--gold-soft); font-weight:600; }
+
+  /* ---- mapa ---- */
+  .map-frame{ position:relative; border:1px solid var(--border); }
+  .map-frame img{ width:100%; filter:grayscale(.35) sepia(.18) brightness(.82) contrast(1.05); }
+  .map-frame::after{ content:''; position:absolute; inset:0; box-shadow:inset 0 0 60px 10px rgba(0,0,0,.5); pointer-events:none; }
+  .map-pin{ position:absolute; width:10px; height:10px; margin:-5px 0 0 -5px; border-radius:50%; background:var(--gold); cursor:pointer; box-shadow:0 0 0 3px rgba(11,12,10,.85), 0 0 8px rgba(201,162,75,.6); z-index:2; }
+  .map-pin.approx{ background:transparent; border:1.5px dashed var(--gold); }
+  .map-pin:hover, .map-pin.active{ transform:scale(1.5); }
+  .map-legend{ margin-top:14px; display:flex; gap:22px; font-size:.74rem; color:var(--ink-muted); }
+  .map-legend .li{ display:flex; align-items:center; gap:7px; }
+  .map-legend .d{ width:8px; height:8px; border-radius:50%; background:var(--gold); }
+  .map-legend .d.approx{ background:transparent; border:1.5px dashed var(--gold); }
+  .map-info{ margin-top:22px; padding:20px 24px; }
+  .map-info .t{ font-family:"Fraunces",serif; font-size:1.2rem; color:var(--ink); }
+  .map-info .s{ font-size:.87rem; color:var(--ink-2); margin-top:6px; max-width:60ch; }
+
+  /* ---- pilares ---- */
+  .pillars{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border-soft); }
+  @media (max-width:900px){ .pillars{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .pillars{ grid-template-columns:1fr; } }
+  .pcard{ background:var(--bg); padding:24px 22px; cursor:pointer; min-height:150px; display:flex; flex-direction:column; gap:10px; transition:background .2s ease; }
+  .pcard:hover{ background:var(--surface); }
+  .pcard .pn{ font-family:"IBM Plex Mono"; font-size:.68rem; color:var(--gold); letter-spacing:.05em; }
+  .pcard h4{ font-family:"Fraunces",serif; font-weight:500; font-size:1.25rem; margin:0; color:var(--ink); }
+  .pcard p{ font-size:.84rem; color:var(--ink-2); margin:0; max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .pcard.open p{ max-height:220px; margin-top:2px; }
+  .pcard .hint{ font-size:.66rem; color:var(--ink-muted); font-family:"IBM Plex Mono"; margin-top:auto; }
+
+  /* ---- ISE ---- */
+  .ise-shell{ display:grid; grid-template-columns:210px 1fr; gap:46px; align-items:start; }
+  @media (max-width:700px){ .ise-shell{ grid-template-columns:1fr; } }
+  .gauge{ text-align:center; }
+  .gauge-num{ font-family:"Fraunces",serif; font-weight:300; font-size:4.6rem; line-height:1; color:var(--ink); }
+  .gauge-band{ font-family:"IBM Plex Mono"; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-muted); margin-top:8px; }
+  .gauge-ring{ width:150px; height:150px; margin:0 auto; }
+  .islider{ display:grid; grid-template-columns:1fr auto; gap:4px 14px; align-items:center; padding:15px 0; border-top:1px solid var(--border-soft); }
+  .islider label{ font-size:.9rem; color:var(--ink-2); grid-column:1; }
+  .islider .w{ font-size:.66rem; color:var(--ink-muted); font-family:"IBM Plex Mono"; display:block; margin-top:2px; }
+  .islider .v{ font-family:"IBM Plex Mono"; font-size:.92rem; color:var(--gold-soft); grid-row:1; grid-column:2; }
+  .islider input[type=range]{ grid-column:1/-1; width:100%; accent-color:var(--gold); margin-top:5px; }
+  .ise-reset{ margin-top:18px; font-size:.76rem; font-family:"IBM Plex Mono"; color:var(--gold-soft); background:none; border:1px solid var(--border); border-radius:2px; padding:7px 14px; cursor:pointer; }
+
+  /* ---- EMEAI ---- */
+  .photo-row{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:2px; background:var(--border-soft); }
+  @media (max-width:640px){ .photo-row{ grid-template-columns:1fr; } }
+  .photo-row img{ width:100%; height:100%; object-fit:cover; aspect-ratio:4/3; filter:saturate(.85) brightness(.92); }
+  .emeai-stats{ display:flex; flex-wrap:wrap; gap:0; margin:30px 0; }
+  .emeai-stats .s{ padding:0 26px 0 0; margin-right:26px; border-right:1px solid var(--border); }
+  .emeai-stats .s:last-child{ border-right:none; }
+  .emeai-stats .n{ font-family:"Fraunces",serif; font-weight:300; font-size:1.8rem; color:var(--ink); }
+  .emeai-stats .l{ font-size:.7rem; color:var(--ink-muted); }
+  .link-line a{ text-decoration:underline; text-underline-offset:4px; }
+
+  /* ---- BAMUR ---- */
+  .bamur .k{ font-family:"Fraunces",serif; font-style:italic; font-weight:400; font-size:1.7rem; color:var(--gold-soft); display:block; margin-bottom:16px; }
+  .bamur p{ color:var(--ink-2); max-width:66ch; font-size:.98rem; }
+
+  /* ---- roadmap ---- */
+  .rm-track{ position:relative; height:1px; background:var(--border); margin:48px 0 0; }
+  .rm-fill{ position:absolute; left:0; top:0; height:100%; background:var(--gold); transition:width .3s ease; }
+  .rm-nodes{ display:flex; justify-content:space-between; position:relative; top:-6px; }
+  .rm-node{ width:12px; height:12px; border-radius:50%; background:var(--bg); border:1.5px solid var(--border); cursor:pointer; transition:all .2s; }
+  .rm-node.active{ background:var(--gold); border-color:var(--gold); transform:scale(1.4); }
+  .rm-labels{ display:flex; justify-content:space-between; margin-top:16px; }
+  .rm-labels span{ font-family:"IBM Plex Mono"; font-size:.66rem; color:var(--ink-muted); flex:1; text-align:center; }
+  .rm-labels span:first-child{ text-align:left; } .rm-labels span:last-child{ text-align:right; }
+  .rm-detail{ margin-top:40px; border-top:1px solid var(--border); padding-top:24px; min-height:120px; }
+  .rm-detail .y{ font-family:"IBM Plex Mono"; color:var(--gold); font-size:.8rem; }
+  .rm-detail h4{ font-family:"Fraunces",serif; font-weight:400; font-style:italic; font-size:1.55rem; margin:8px 0 10px; color:var(--ink); }
+  .rm-detail p{ color:var(--ink-2); font-size:.92rem; max-width:64ch; margin:0; }
+
+  /* ---- cierre ---- */
+  .closer{ text-align:center; padding:96px 0 70px; }
+  .closer .q{ font-family:"Fraunces",serif; font-style:italic; font-weight:300; font-size:clamp(1.7rem,4.2vw,2.7rem); max-width:20ch; margin:0 auto 34px; line-height:1.28; color:var(--ink); }
+  .cta-row{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:14px; }
+  .cta{ display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:2px; font-weight:600; font-size:.88rem; text-decoration:none; font-family:"Work Sans"; }
+  .cta.primary{ background:var(--gold); color:#1a1305; }
+  .cta.ghost{ border:1px solid var(--border); color:var(--ink); }
+  footer.pf{ text-align:center; padding:36px 0 70px; color:var(--ink-muted); font-size:.76rem; }
+</style>
+
+<header class="hero">
+  <div class="wrap"><div class="hero-inner">
+    <span class="label">Concurso Jefatura de Obras Públicas — Municipalidad de Ayacucho</span>
+    <h1 class="thesis">Gestionar <em>patrimonio</em>,<br>no apagar incendios.</h1>
+    <div class="rule"></div>
+    <p class="lead">Un sistema de trabajo real para Obras Públicas, construido con planos, fotografías y registros reales del archivo municipal — no una maqueta.</p>
+    <div class="brandmark"><b>SIGEP 360</b> — Sistema Inteligente de Gestión para los Edificios Públicos</div>
+    <div class="statline">
+      <div class="s"><span class="n">71</span><span class="l">dependencias municipales</span></div>
+      <div class="s"><span class="n">2027</span><span class="l">arranca el MVP</span></div>
+      <div class="s"><span class="n">25</span><span class="l">intervenciones reales en EMEAI</span></div>
+      <div class="s"><span class="n">43</span><span class="l">edificios con historial documentado</span></div>
+    </div>
+  </div></div>
+</header>
+
+<main class="wrap">
+
+  <section class="chapter" id="diagnostico">
+    <div class="chapter-head reveal">
+      <span class="label">01 — Diagnóstico</span>
+      <h2>Hoy entra por cualquier lado.</h2>
+      <p>Los pedidos llegan por WhatsApp, teléfono, notas, expedientes o en persona, sin un sistema que los concentre.</p>
+    </div>
+    <div class="reveal">
+      <button class="diag-toggle" id="diagToggle" type="button"><span class="sw"></span><span id="diagLabel">Mostrar cómo queda con SIGEP 360</span></button>
+      <div class="diag-cols">
+        <div class="diag-col today" id="colToday">
+          <div class="k">Hoy</div>
+          <ul><li>WhatsApp del jefe de cuadrilla</li><li>Llamados telefónicos sueltos</li><li>Notas en papel</li><li>Expedientes por separado</li><li>Reclamos en persona</li></ul>
+        </div>
+        <div class="diag-col sigep" id="colSigep">
+          <div class="k">Con SIGEP 360</div>
+          <ul>
+            <li><b>Un único registro</b>, sin importar el canal de entrada</li>
+            <li>Clasificado por <b>rubro</b> automáticamente</li>
+            <li>Con <b>prioridad</b> calculada (urgencia, riesgo, antigüedad)</li>
+            <li>Vinculado a <b>materiales</b> y agenda de cuadrilla</li>
+            <li>Con <b>trazabilidad</b> completa hasta el cierre</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="mapa">
+    <div class="chapter-head reveal">
+      <span class="label">02 — Territorio</span>
+      <h2>Ayacucho, Buenos Aires.</h2>
+      <p>Mapa real del casco urbano (OpenStreetMap). Los puntos sólidos están geocodificados con exactitud; el punteado es aproximado.</p>
+    </div>
+    <div class="reveal">
+      <div class="map-frame" style="position:relative">
+        <img src="assets/ayacucho-map.jpg" alt="Mapa real del casco urbano de Ayacucho" id="mapImg">
+        <div id="mapPins"></div>
+      </div>
+      <div class="map-legend">
+        <span class="li"><span class="d"></span>Exacta</span>
+        <span class="li"><span class="d approx"></span>Aproximada</span>
+      </div>
+      <div class="map-info card" id="mapInfo"></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="pilares">
+    <div class="chapter-head reveal">
+      <span class="label">03 — Los cuatro pilares</span>
+      <h2>El núcleo técnico.</h2>
+    </div>
+    <div class="pillars reveal" id="pillars">
+      <div class="pcard" data-i="1"><span class="pn">01 · Inventario</span><h4>Identidad digital</h4>
+        <p>Código SIGEP, ubicación, catastro, superficies, planos, fotos, instalaciones, responsables, costos e historial — visualizados también en un mapa GIS. Dinámico.</p>
+        <span class="hint">tocar para expandir</span></div>
+      <div class="pcard" data-i="2"><span class="pn">02 · Historia Clínica</span><h4>Cada edificio, un paciente</h4>
+        <p>Patología → diagnóstico → intervención → materiales → fotos → costo → resultado → control → próxima inspección.</p>
+        <span class="hint">tocar para expandir</span></div>
+      <div class="pcard" data-i="3"><span class="pn">03 · ISE</span><h4>Salud edilicia</h4>
+        <p>Calificación 0–100, complementada con criticidad funcional. Ayuda a decidir; nunca reemplaza el criterio profesional.</p>
+        <span class="hint">tocar para expandir</span></div>
+      <div class="pcard" data-i="4"><span class="pn">04 · Priorización</span><h4>Orden objetivo</h4>
+        <p>Urgencia, riesgo, ISE, criticidad funcional, antigüedad, recursos y posibilidad de agrupar tareas.</p>
+        <span class="hint">tocar para expandir</span></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="ise">
+    <div class="chapter-head reveal">
+      <span class="label">04 — ISE en vivo</span>
+      <h2>Movés los valores, cambia el índice.</h2>
+      <p>Misma fórmula del plan, aplicada a EMEAI.</p>
+    </div>
+    <div class="ise-shell reveal">
+      <div class="gauge">
+        <svg class="gauge-ring" viewBox="0 0 150 150">
+          <circle cx="75" cy="75" r="64" fill="none" stroke="var(--border-soft)" stroke-width="1.5"/>
+          <circle id="gaugeArc" cx="75" cy="75" r="64" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" transform="rotate(-90 75 75)" stroke-dasharray="402" stroke-dashoffset="402"/>
+        </svg>
+        <div class="gauge-num" id="iseNum" style="margin-top:-104px">—</div>
+        <div class="gauge-band" id="iseBand" style="margin-top:50px">—</div>
+        <button class="ise-reset" id="iseReset" type="button">Restablecer valores de EMEAI</button>
+      </div>
+      <div id="iseSliders"></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="emeai">
+    <div class="chapter-head reveal">
+      <span class="label">05 — Caso real</span>
+      <h2>EMEAI: diez años de archivo.</h2>
+      <p>Antes Escuela de Música — el edificio con el que se probó todo el concepto (2013–2026).</p>
+    </div>
+    <div class="reveal">
+      <div class="photo-row">
+        <img src="photos/e1-1.jpg" alt="Edificio original, 2013">
+        <img src="photos/e4-3.jpg" alt="Ampliación sobre la cubierta original">
+        <img src="photos/e6-3.jpg" alt="Aula de percusión, uso actual">
+      </div>
+      <div class="emeai-stats">
+        <div class="s"><span class="n">1.150,73 m²</span><span class="l">construidos</span></div>
+        <div class="s"><span class="n">25</span><span class="l">intervenciones documentadas</span></div>
+        <div class="s"><span class="n">≈72</span><span class="l">ISE de ejemplo</span></div>
+      </div>
+      <p class="link-line"><a href="https://claude.ai/artifact/U6BukbG2iSU7AodF3CCBdX" target="_blank" rel="noopener">Abrir el piloto interactivo completo →</a></p>
+    </div>
+  </section>
+
+  <section class="chapter bamur" id="bamur">
+    <div class="chapter-head reveal"><span class="label">06 — BAMUR</span></div>
+    <div class="reveal">
+      <span class="k">La pinotea que no se tiró.</span>
+      <p>Durante una intervención sobre el edificio original de la Escuela de Música se recuperó piso de madera de pinotea en buen estado. BAMUR (Banco Municipal de Materiales Recuperados) lo registra con código, cantidad, estado y fotografías, para que en otra obra municipal alguien pueda reutilizarlo en vez de comprar madera nueva. Economía circular aplicada a la gestión municipal.</p>
+    </div>
+  </section>
+
+  <section class="chapter" id="ruta">
+    <div class="chapter-head reveal"><span class="label">07 — Hoja de ruta</span><h2>2027 → 2037.</h2></div>
+    <div class="reveal">
+      <div class="rm-track"><div class="rm-fill" id="rmFill"></div></div>
+      <div class="rm-nodes" id="rmNodes"></div>
+      <div class="rm-labels"><span>2027</span><span>2028</span><span>2029–30</span><span>2031–33</span><span>2034–37</span></div>
+      <div class="rm-detail" id="rmDetail"></div>
+    </div>
+  </section>
+
+  <section class="closer" id="cierre">
+    <div class="reveal">
+      <div class="q">"Conocer para planificar. Planificar para mantener. Mantener para evitar reparar."</div>
+      <div class="cta-row">
+        <a class="cta primary" href="https://claude.ai/artifact/PDj3iusL9bd5vaG1Fm93So" target="_blank" rel="noopener">Leer el dossier completo</a>
+        <a class="cta ghost" href="https://claude.ai/artifact/U6BukbG2iSU7AodF3CCBdX" target="_blank" rel="noopener">Ver el piloto EMEAI</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer class="pf">Construido con planos, fotografías y registros reales del archivo de Obras Públicas de la Municipalidad de Ayacucho.</footer>
+
+<script>
+(function(){
+  var io = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); }); }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  var toggle = document.getElementById('diagToggle');
+  var label = document.getElementById('diagLabel');
+  var colToday = document.getElementById('colToday');
+  var colSigep = document.getElementById('colSigep');
+  var on = false;
+  toggle.addEventListener('click', function(){
+    on = !on;
+    toggle.classList.toggle('on', on);
+    colToday.classList.toggle('faded', on);
+    colSigep.classList.toggle('show', on);
+    label.textContent = on ? 'Volver a "hoy"' : 'Mostrar cómo queda con SIGEP 360';
+  });
+
+  var PINS = [
+    { x:35.46, y:47.83, label:'Municipalidad de Ayacucho', approx:false, text:'Sede del Departamento Ejecutivo y de la Jefatura de Obras Públicas.' },
+    { x:36.80, y:47.17, label:'Plaza San Martín', approx:false, text:'Espacio público con intervenciones registradas en el archivo histórico de Obras Públicas.' },
+    { x:40.79, y:43.86, label:'Biblioteca Pública Manuel Vilardaga', approx:false, text:'También aparece en el archivo histórico de obras públicas municipales.' },
+    { x:34.14, y:57.89, label:'Hospital Dr. Pedro Solanet', approx:false, text:'Posible correspondencia con "Centro de Salud Solanet", mencionado en el archivo de obras.' },
+    { x:38.6, y:51.5, label:'EMEAI (ubicación aproximada)', approx:true, text:'A. del Valle 1479, entre Mitre y Rivadavia. Caso piloto de este proyecto — no se pudo confirmar por geocodificación, por eso queda marcado como aproximado.' }
+  ];
+  var mapPins = document.getElementById('mapPins');
+  mapPins.style.position='absolute'; mapPins.style.inset='0';
+  var mapInfo = document.getElementById('mapInfo');
+  function showPin(p){ mapInfo.innerHTML = '<div class="t">'+p.label+'</div><div class="s">'+p.text+'</div>'; }
+  PINS.forEach(function(p){
+    var el = document.createElement('div');
+    el.className = 'map-pin' + (p.approx?' approx':'');
+    el.style.left = p.x+'%'; el.style.top = p.y+'%';
+    el.addEventListener('click', function(){
+      document.querySelectorAll('.map-pin').forEach(function(m){ m.classList.remove('active'); });
+      el.classList.add('active'); showPin(p);
+    });
+    mapPins.appendChild(el);
+  });
+  showPin(PINS[0]); document.querySelector('.map-pin').classList.add('active');
+
+  document.querySelectorAll('.pcard').forEach(function(c){ c.addEventListener('click', function(){ c.classList.toggle('open'); }); });
+
+  var ISE_ITEMS = [
+    { key:'estructura', label:'Estructura', weight:20, val:78 },
+    { key:'cubiertas', label:'Cubiertas', weight:15, val:65 },
+    { key:'electrica', label:'Instalación eléctrica', weight:15, val:60 },
+    { key:'sanitarias', label:'Sanitarias', weight:10, val:85 },
+    { key:'clima', label:'Gas / climatización', weight:10, val:88 },
+    { key:'fachadas', label:'Fachadas / revoques', weight:10, val:70 },
+    { key:'accesibilidad', label:'Accesibilidad / seguridad', weight:10, val:55 },
+    { key:'carpinterias', label:'Carpinterías', weight:5, val:75 },
+    { key:'mantenimiento', label:'Mantenimiento general', weight:5, val:72 }
+  ];
+  var iseSliders = document.getElementById('iseSliders');
+  iseSliders.innerHTML = ISE_ITEMS.map(function(it){
+    return '<div class="islider"><label>'+it.label+'<span class="w">peso '+it.weight+'%</span></label>'+
+      '<span class="v mono" id="v-'+it.key+'">'+it.val+'</span>'+
+      '<input type="range" min="0" max="100" value="'+it.val+'" data-key="'+it.key+'"></div>';
+  }).join('');
+  var iseNum = document.getElementById('iseNum'), iseBand = document.getElementById('iseBand'), gaugeArc = document.getElementById('gaugeArc');
+  var CIRC = 402;
+  function recompute(){
+    var total = 0;
+    ISE_ITEMS.forEach(function(it){
+      var v = Number(iseSliders.querySelector('[data-key="'+it.key+'"]').value);
+      document.getElementById('v-'+it.key).textContent = v;
+      total += v*it.weight/100;
+    });
+    total = Math.round(total);
+    iseNum.textContent = total;
+    var band = total>=80?['BUENO','good']:total>=60?['ATENCIÓN','warning']:total>=40?['PRIORITARIO','serious']:['CRÍTICO','critical'];
+    iseBand.textContent = band[0];
+    var color = getComputedStyle(document.documentElement).getPropertyValue('--'+band[1]).trim();
+    gaugeArc.setAttribute('stroke', color);
+    gaugeArc.setAttribute('stroke-dashoffset', CIRC - (CIRC*total/100));
+  }
+  iseSliders.addEventListener('input', recompute);
+  document.getElementById('iseReset').addEventListener('click', function(){
+    ISE_ITEMS.forEach(function(it){ iseSliders.querySelector('[data-key="'+it.key+'"]').value = it.val; });
+    recompute();
+  });
+  recompute();
+
+  var PHASES = [
+    { y:'2027', t:'Fundación', d:'Inventario de las 71 dependencias, mapa, fichas, solicitudes, Órdenes de Trabajo, agenda de cuadrillas, QR. Incluye el sprint de diagnóstico "Año 0": el ISE inicial real de cada edificio.' },
+    { y:'2028', t:'Salud edilicia', d:'ISE, protocolos, mantenimiento preventivo.' },
+    { y:'2029–2030', t:'Circuito completo', d:'Compras, materiales, BAMUR, consumos, SIGEP Verde.' },
+    { y:'2031–2033', t:'Automatización', d:'Sensores y proyectos piloto energéticos, con financiamiento externo gestionado.' },
+    { y:'2034–2037', t:'Predicción', d:'Inteligencia Artificial, análisis histórico, mantenimiento predictivo y consolidación del Plan Director.' }
+  ];
+  var rmNodes = document.getElementById('rmNodes'), rmFill = document.getElementById('rmFill'), rmDetail = document.getElementById('rmDetail');
+  PHASES.forEach(function(p,i){ var n=document.createElement('div'); n.className='rm-node'; n.addEventListener('click',function(){selectPhase(i);}); rmNodes.appendChild(n); });
+  function selectPhase(i){
+    Array.from(rmNodes.children).forEach(function(n,idx){ n.classList.toggle('active', idx===i); });
+    rmFill.style.width = (i/(PHASES.length-1)*100)+'%';
+    var p = PHASES[i];
+    rmDetail.innerHTML = '<div class="y">'+p.y+'</div><h4>'+p.t+'</h4><p>'+p.d+'</p>';
+  }
+  selectPhase(0);
+})();
+</script>

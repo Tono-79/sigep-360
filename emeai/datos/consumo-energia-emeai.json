@@ -1,0 +1,67 @@
+{
+  "fuente": "Facturas EDEA (Empresa Distribuidora de Energía Atlántica) aportadas por el usuario — 23 boletas descargadas de la Oficina Virtual (carpeta 'boletas edea emeai') más 1 boleta de la sesión anterior (foto), cubriendo 8 bimestres consecutivos por edificio, 31/03/2025 a 31/07/2026 (16 meses, todas las estaciones representadas).",
+  "nota_periodos": "EDEA factura en bimestres, no en meses calendario. El código de PERIODO (ej. '03/25') es el número de bimestre dentro del año de emisión, no el mes. 'CONSUMOS ENTRE' trae las fechas reales de cada ciclo de lectura, que es lo que se usó para todos los cálculos (kWh/día).",
+  "nota_direcciones": "Los 3 edificios corresponden a distintos medidores del complejo EMEAI: edificio principal (Rivadavia 1233) y dos anexos sobre Aristóbulo del Valle (1443 y 1467). No se confirmó con el usuario qué dependencia exacta ocupa cada anexo.",
+  "nota_privacidad": "Los números de cuenta y de medidor reales de EDEA se omitieron a propósito de este archivo público — no aportan nada al análisis y no hace falta exponerlos.",
+  "edificios": {
+    "edificio_a": {
+      "domicilio": "Rivadavia 1233",
+      "tarifa": "T1GE",
+      "periodos": [
+        { "periodo": "03/25", "desde": "2025-03-31", "hasta": "2025-05-30", "dias": 60, "consumo_kwh": 2077, "total_ars": 559807.63, "reactiva_kwh": 147 },
+        { "periodo": "04/25", "desde": "2025-05-30", "hasta": "2025-07-31", "dias": 62, "consumo_kwh": 2518, "total_ars": 705142.67, "reactiva_kwh": 122 },
+        { "periodo": "05/25", "desde": "2025-07-31", "hasta": "2025-09-30", "dias": 61, "consumo_kwh": 3501, "total_ars": 989227.04, "reactiva_kwh": 156 },
+        { "periodo": "06/25", "desde": "2025-09-30", "hasta": "2025-11-28", "dias": 59, "consumo_kwh": 3996, "total_ars": 1247250.22, "reactiva_kwh": 161 },
+        { "periodo": "01/26", "desde": "2025-11-28", "hasta": "2026-01-30", "dias": 63, "consumo_kwh": 1084, "total_ars": 378216.53, "reactiva_kwh": 37 },
+        { "periodo": "02/26", "desde": "2026-01-30", "hasta": "2026-03-31", "dias": 60, "consumo_kwh": 539, "total_ars": 227528.92, "reactiva_kwh": 37 },
+        { "periodo": "03/26", "desde": "2026-03-31", "hasta": "2026-05-29", "dias": 59, "consumo_kwh": 3493, "total_ars": 1264000.73, "reactiva_kwh": 95 },
+        { "periodo": "04/26", "desde": "2026-05-29", "hasta": "2026-07-31", "dias": 63, "consumo_kwh": 3148, "total_ars": 1296469.91, "reactiva_kwh": 60 }
+      ],
+      "total_kwh": 20356, "total_ars": 6667643.65, "total_dias": 487,
+      "kwh_dia": 41.8, "kwh_anio_real": 15257, "reactiva_pct_promedio": 4.0
+    },
+    "edificio_b": {
+      "domicilio": "Aristóbulo del Valle 1443",
+      "tarifa": "T1GE",
+      "periodos": [
+        { "periodo": "03/25", "desde": "2025-03-31", "hasta": "2025-05-30", "dias": 60, "consumo_kwh": 838, "total_ars": 252233.10, "reactiva_kwh": 184 },
+        { "periodo": "04/25", "desde": "2025-05-30", "hasta": "2025-07-31", "dias": 62, "consumo_kwh": 1398, "total_ars": 413470.84, "reactiva_kwh": 418 },
+        { "periodo": "05/25", "desde": "2025-07-31", "hasta": "2025-09-30", "dias": 61, "consumo_kwh": 1279, "total_ars": 393261.77, "reactiva_kwh": 370 },
+        { "periodo": "06/25", "desde": "2025-09-30", "hasta": "2025-11-28", "dias": 59, "consumo_kwh": 610, "total_ars": 222299.09, "reactiva_kwh": 136 },
+        { "periodo": "01/26", "desde": "2025-11-28", "hasta": "2026-01-30", "dias": 63, "consumo_kwh": 81, "total_ars": 81084.72, "reactiva_kwh": 9 },
+        { "periodo": "02/26", "desde": "2026-01-30", "hasta": "2026-03-31", "dias": 60, "consumo_kwh": 157, "total_ars": 106405.68, "reactiva_kwh": 12 },
+        { "periodo": "03/26", "desde": "2026-03-31", "hasta": "2026-05-29", "dias": 59, "consumo_kwh": 1109, "total_ars": 440894.77, "reactiva_kwh": 306 },
+        { "periodo": "04/26", "desde": "2026-05-29", "hasta": "2026-07-31", "dias": 63, "consumo_kwh": 1501, "total_ars": 652618.88, "reactiva_kwh": 467 }
+      ],
+      "total_kwh": 6973, "total_ars": 2562268.85, "total_dias": 487,
+      "kwh_dia": 14.32, "kwh_anio_real": 5226, "reactiva_pct_promedio": 27.3
+    },
+    "edificio_c": {
+      "domicilio": "Aristóbulo del Valle 1467",
+      "tarifa": "T1GB",
+      "periodos": [
+        { "periodo": "03/25", "desde": "2025-03-31", "hasta": "2025-05-30", "dias": 60, "consumo_kwh": 564, "total_ars": 168457.45, "reactiva_kwh": 21 },
+        { "periodo": "04/25", "desde": "2025-05-30", "hasta": "2025-07-31", "dias": 62, "consumo_kwh": 549, "total_ars": 175645.53, "reactiva_kwh": 13 },
+        { "periodo": "05/25", "desde": "2025-07-31", "hasta": "2025-09-30", "dias": 61, "consumo_kwh": 683, "total_ars": 217934.69, "reactiva_kwh": 21 },
+        { "periodo": "06/25", "desde": "2025-09-30", "hasta": "2025-11-28", "dias": 59, "consumo_kwh": 714, "total_ars": 231869.36, "reactiva_kwh": 34 },
+        { "periodo": "01/26", "desde": "2025-11-28", "hasta": "2026-01-30", "dias": 63, "consumo_kwh": 284, "total_ars": 116637.72, "reactiva_kwh": 24 },
+        { "periodo": "02/26", "desde": "2026-01-30", "hasta": "2026-03-31", "dias": 60, "consumo_kwh": 440, "total_ars": 172408.48, "reactiva_kwh": 34 },
+        { "periodo": "03/26", "desde": "2026-03-31", "hasta": "2026-05-29", "dias": 59, "consumo_kwh": 686, "total_ars": 269654.25, "reactiva_kwh": 20 },
+        { "periodo": "04/26", "desde": "2026-05-29", "hasta": "2026-07-31", "dias": 63, "consumo_kwh": 574, "total_ars": 260278.70, "reactiva_kwh": 17 }
+      ],
+      "total_kwh": 4494, "total_ars": 1612886.18, "total_dias": 487,
+      "kwh_dia": 9.23, "kwh_anio_real": 3368, "reactiva_pct_promedio": 4.1
+    }
+  },
+  "serie_combinada_por_bimestre_kwh": {
+    "03/25": 3479, "04/25": 4465, "05/25": 5463, "06/25": 5320,
+    "01/26": 1449, "02/26": 1136, "03/26": 5288, "04/26": 5223
+  },
+  "combinado": {
+    "total_kwh_16_meses": 31823,
+    "total_ars_16_meses_nominal": 10842798.68,
+    "kwh_anio_real": 23851
+  },
+  "hallazgo_estacional": "Los bimestres de verano (01/26: nov-ene: y 02/26: ene-mar, coincidentes con el receso escolar) son sistemáticamente los de menor consumo de todo el año en los 3 edificios — hasta 5x menos que los bimestres de abril a noviembre. Es exactamente el período de mayor irradiación solar del año, lo que hay que considerar al dimensionar: un sistema pensado para el consumo anual promedio va a generar bastante más de lo que el edificio consume en verano.",
+  "nota_factor_potencia": "El edificio B tiene una proporción de energía reactiva más alta que los otros dos (27,3% vs ~4%), pero el factor de potencia estimado (cos φ ≈ 0,96) está dentro de un rango aceptable — no hay evidencia, con los datos disponibles, de que esté generando penalización tarifaria. Se corrige acá una hipótesis planteada en el cálculo anterior con un solo período, que sobrestimaba el problema."
+}
