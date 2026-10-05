@@ -107,7 +107,7 @@ children.push(
   P("SIGEP 360 es la propuesta de implementación del programa de diagnóstico, prevención de patologías y mantenimiento de los Edificios Públicos solicitado para este concurso: ordena el diagnóstico (ISE, Historia Clínica Edilicia), sistematiza la prevención de patologías (mapa de riesgo, patologías activas, enfoque preventivo/predictivo) y rediseña el mantenimiento (flujo operativo, Orden de Trabajo, materiales, cuadrillas). Plan estratégico de transformación de la Jefatura de Obras Públicas, período 2027–2037.", { spacingAfter: 220 }),
   SimpleTable(
     ["Partido", "Dependencias relevadas", "Dotación operativa", "Horizonte"],
-    [["Ayacucho, Buenos Aires", "≈ 71 edificios municipales", "15 trabajadores en 4 cuadrillas", "Inicio 2027 → consolidación 2037"]]
+    [["Ayacucho, Buenos Aires", "≈ 71 dependencias municipales", "15 trabajadores en 4 cuadrillas", "Inicio 2027 → consolidación 2037"]]
   ),
   Quote("\"De reparar edificios a gestionar patrimonio.\"", 26),
   PageBreakPara()
@@ -343,7 +343,7 @@ children.push(...Bullets([
   "4. Solicitudes (SIGEP + WhatsApp)", "5. Órdenes de Trabajo", "6. Priorización",
   "7. Agenda de cuadrillas", "8. Materiales / depósito básico", "9. QR", "10. Dashboard básico",
 ]));
-children.push(...Mejora("c", "Sprint de diagnóstico \"Año 0\"", "Antes de que el MVP esté operativo, un relevamiento acotado (fines de 2026 / inicio de 2027) calcula el ISE inicial de los 71 edificios. Es barato —una planilla y una recorrida— y resuelve el problema de fondo: hoy no existe una línea de base contra la cual medir, en 2031, si el sistema efectivamente mejoró algo."));
+children.push(...Mejora("c", "Sprint de diagnóstico \"Año 0\"", "Antes de que el MVP esté operativo, un relevamiento acotado (fines de 2026 / inicio de 2027) calcula el ISE inicial de las 71 dependencias. Es barato —una planilla y una recorrida— y resuelve el problema de fondo: hoy no existe una línea de base contra la cual medir, en 2031, si el sistema efectivamente mejoró algo."));
 children.push(H3("Hoja de ruta 2027–2037"));
 children.push(...Roadmap([
   ["2027 — Ordenar", "Inventario dinámico, codificación, mapa, fichas, relevamiento inicial, piloto de cubiertas y Orden de Trabajo. Incluye el sprint de diagnóstico Año 0."],

@@ -18,14 +18,14 @@ Análisis del plan original (`00-plan-original.md`) de cara al concurso de Jefat
 3. Nada sobre protección de datos personales (legajos de los 15 trabajadores, fotos de escuelas con menores, domicilios).
 4. No hay línea de base: el ISE promedio municipal hoy no existe como dato, así que no se podrá demostrar mejora futura sin un diagnóstico inicial.
 5. Riesgo de adopción de las cuadrillas abordado solo con buenas intenciones, sin mecanismo concreto de onboarding.
-6. Conectividad: probablemente varios de los 71 edificios están en zona rural sin buena señal; falta modo offline en la PWA (Aplicación Web Progresiva).
+6. Conectividad: probablemente varias de las 71 dependencias están en zona rural sin buena señal; falta modo offline en la PWA (Aplicación Web Progresiva).
 7. No se menciona financiamiento externo, en particular para SIGEP Verde (líneas provinciales/nacionales de eficiencia energética existen).
 
 ## Mejoras concretas a incorporar
 
 - **(a) Ordenanza de creación de SIGEP 360**: proyecto de ordenanza breve que declare el sistema obligatorio, defina propiedad municipal de los datos y fije continuidad presupuestaria mínima. Es lo único que blinda el proyecto contra el cambio de gestión.
 - ~~(b) Comité de Continuidad~~ — **retirada a pedido del usuario** (comité de seguimiento trimestral con Concejo Deliberante, Secretaría y referente técnico). Ya no figura en el dossier, capítulo 6.
-- **(c) Sprint de diagnóstico "Año 0"** (fines 2026/inicio 2027): relevar el ISE inicial de los 71 edificios antes de que el sistema esté operativo — barato, y da la línea de base que hoy falta.
+- **(c) Sprint de diagnóstico "Año 0"** (fines 2026/inicio 2027): relevar el ISE inicial de las 71 dependencias antes de que el sistema esté operativo — barato, y da la línea de base que hoy falta.
 - **(d) Marco de costos por fases** (aunque sea en órdenes de magnitud bajo/medio/alto): MVP 2027 con stack de bajo costo (PWA + base de datos abierta, sin licencias por usuario), para mostrar que no se ata al Municipio a un proveedor caro.
 - **(e) Financiamiento externo para SIGEP Verde**: citar líneas provinciales/nacionales de eficiencia energética y energías renovables municipales como fuente de fondeo de la fase 2031-2033.
 - **(f) Tablero público simplificado (gobierno abierto)**: versión pública de solo lectura del Dashboard (ISE por edificio, OT (Orden de Trabajo) en curso, sin datos sensibles) — mismo backend, otra interfaz. Argumento fuerte de transparencia para un concurso público.
