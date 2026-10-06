@@ -334,8 +334,7 @@ children.push(H3("Una plataforma, distintas interfaces"));
 children.push(P("No se desarrollan aplicaciones independientes. Una única base de datos central, con interfaces distintas según el usuario: Jefe de Obras Públicas (mapa, patrimonio, ISE, prioridades, OT, cuadrillas, materiales, indicadores), Responsable de edificio (solicitud, fotos, seguimiento), Cuadrilla (trabajos del día, ubicación, instrucciones, materiales, cierre), Depósito (stock, reservas, BAMUR), Compras (necesidades, presupuestos, proveedores), Secretaría (autorizaciones, presupuesto, tablero ejecutivo) y, más adelante, Proveedor (actualización limitada de catálogo/precios)."));
 children.push(H3("Presupuesto e implementación"));
 children.push(P("El presupuesto de Obras Públicas es organizado y autorizado por la Secretaría — SIGEP 360 no propone una autonomía presupuestaria ajena a la estructura vigente. Propone mejorar la calidad de la información con la que se formula, solicita, autoriza y controla el gasto. La implementación inicial privilegia herramientas de bajo costo: inventario, procedimientos, formularios digitales, cartografía, QR y tableros; las inversiones mayores —sensores, renovables, software específico— se justifican mediante proyectos, ahorro esperado, criticidad y disponibilidad presupuestaria."));
-children.push(...Mejora("d", "Costos por fase, en orden de magnitud", "El MVP (Producto Mínimo Viable) 2027 se construye sobre un stack de bajo costo —PWA más base de datos abierta, sin licenciamiento por usuario— precisamente para no atar al Municipio a un proveedor caro desde el día uno."));
-children.push(H3("MVP 2027"));
+children.push(H3("Producto Mínimo Viable 2027"));
 children.push(P("Pequeño, pero funcionando de verdad. No se intenta construir todo SIGEP 360 al mismo tiempo."));
 children.push(...Bullets([
   "1. Inventario de las 71 dependencias", "2. Ficha digital", "3. Planos / fotos / documentos",
