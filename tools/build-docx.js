@@ -71,7 +71,6 @@ function Mejora(letra, titulo, texto) {
     new Paragraph({
       spacing: { before: 160, after: 40 },
       children: [
-        new TextRun({ text: `MEJORA (${letra})  `, bold: true, color: ACCENT2, size: 20 }),
         new TextRun({ text: titulo, bold: true, size: 22 }),
       ],
     }),
@@ -288,7 +287,7 @@ children.push(PageBreakPara());
 children.push(H1("06 · Personas, gobernanza y riesgos"));
 children.push(P("SIGEP 360 no es un mecanismo de vigilancia del trabajador, y no puede depender de la buena voluntad de una sola gestión para sobrevivir.", { italic: true, color: MUTED }));
 children.push(H3("Personal, capacitación e incentivos"));
-children.push(P("La tecnología debe reducir improvisación y tareas administrativas innecesarias, no vigilar al trabajador. Se propone un Programa de Reconocimiento por Objetivos de Equipo —sujeto a normativa laboral, disponibilidad presupuestaria y autorización competente— que puede considerar plazo, calidad, seguridad, orden, uso responsable de materiales, documentación y ausencia de retrabajos. Los reconocimientos podrán combinar incentivos económicos cuando legalmente sean posibles con capacitación, certificaciones y reconocimiento institucional; el enfoque es colectivo, para evitar competencia improductiva."));
+children.push(P("La tecnología debe reducir improvisación y tareas administrativas innecesarias. Se propone un Programa de Reconocimiento por Objetivos de Equipo —sujeto a normativa laboral, disponibilidad presupuestaria y autorización competente— que puede considerar plazo, calidad, seguridad, orden, uso responsable de materiales, documentación y ausencia de retrabajos. Los reconocimientos podrán combinar incentivos económicos cuando legalmente sean posibles con capacitación, certificaciones y reconocimiento institucional; el enfoque es colectivo, para evitar competencia improductiva."));
 children.push(H3("Autonomía técnica y continuidad institucional"));
 children.push(P("Las intervenciones que afecten estructura, accesibilidad, instalaciones, seguridad, patrimonio o funcionamiento cuentan con evaluación técnica previa de Obras Públicas. Los responsables de cada dependencia conservan la capacidad de plantear necesidades, pero la solución edilicia se integra a criterios técnicos y al historial del edificio (el caso de la Biblioteca, capítulo 1, es exactamente lo que este principio busca evitar). La información, los planos, los diagnósticos y las decisiones técnicas permanecen como patrimonio del Municipio más allá de quién ocupe temporalmente cada función — pero \"la información pertenece al Municipio, no a una gestión\" es una frase que necesita un instrumento concreto detrás:"));
 children.push(...Mejora("a", "Ordenanza de creación de SIGEP 360", "Proyecto de ordenanza breve que declare a SIGEP 360 sistema de gestión patrimonial obligatorio de la Jefatura de Obras Públicas, establezca que los datos cargados son propiedad municipal (no de un proveedor ni de una gestión) y fije una continuidad presupuestaria mínima para su operación. Es la única garantía real, más allá del discurso, de que el sistema sobrevive a un cambio de gobierno."));
