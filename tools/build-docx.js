@@ -18,7 +18,7 @@ function H3(text) {
   return new Paragraph({ text, heading: HeadingLevel.HEADING_3, spacing: { before: 220, after: 100 } });
 }
 function P(text, opts = {}) {
-  const { bold, italic, size, color, align, spacingBefore = 0, spacingAfter = 160 } = opts;
+  const { bold, italic, size, color, align = AlignmentType.JUSTIFIED, spacingBefore = 0, spacingAfter = 160 } = opts;
   return new Paragraph({
     spacing: { before: spacingBefore, after: spacingAfter },
     alignment: align,
