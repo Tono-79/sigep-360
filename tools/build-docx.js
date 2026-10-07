@@ -106,7 +106,7 @@ children.push(
   P("SIGEP 360 es la propuesta de implementación del programa de diagnóstico, prevención de patologías y mantenimiento de los Edificios Públicos solicitado para este concurso: ordena el diagnóstico (ISE, Historia Clínica Edilicia), sistematiza la prevención de patologías (mapa de riesgo, patologías activas, enfoque preventivo/predictivo) y rediseña el mantenimiento (flujo operativo, Orden de Trabajo, materiales, cuadrillas). Plan estratégico de transformación de la Jefatura de Obras Públicas, período 2027–2037.", { spacingAfter: 220 }),
   SimpleTable(
     ["Partido", "Dependencias relevadas", "Dotación operativa", "Horizonte"],
-    [["Ayacucho, Buenos Aires", "≈ 71 dependencias municipales", "15 trabajadores en 4 cuadrillas", "Inicio 2027 → consolidación 2037"]]
+    [["Ayacucho, Buenos Aires", "≈ 71 dependencias municipales", "Cuadrillas de Albañilería, Electricidad, Inst. Sanitarias, Carpintería, Herrería, etc.", "Inicio 2027 → consolidación 2037"]]
   ),
   Quote("\"De reparar edificios a gestionar patrimonio.\"", 26),
   PageBreakPara()
